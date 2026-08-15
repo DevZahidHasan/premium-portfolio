@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@config "../../tailwind.config.js";
+
+@layer base {
+  :root {
+    --background: #050505;
+    --foreground: #fcfcfc;
+    --muted: #a1a1aa;
+    --accent: #ffffff;
+    --interaction: #3b82f6;
+    --selection: rgba(255, 255, 255, 0.2);
+    --cursor: #ffffff;
+
+    --font-display: 'Satoshi', sans-serif;
+    --font-heading: 'Satoshi', sans-serif;
+    --font-body: 'Geist', sans-serif;
+    --font-label: 'Geist', sans-serif;
+    --font-mono: monospace;
+
+    --page-gutter: clamp(1rem, 5vw, 4rem);
+    --section-spacing: clamp(4rem, 15vh, 12rem);
+    --grid-gap: 1.5rem;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+  
+  /* Only hide cursor if device has a fine pointer (mouse) */
+  @media (pointer: fine) {
+    body {
+      cursor: none;
+    }
+    
+    /* Make sure all clickable things also have no cursor on hover */
+    a, button, [role="button"] {
+      cursor: none;
+    }
+  }
+
+  ::selection {
+    @apply bg-selection text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-fluid-display {
+    font-size: clamp(4rem, 11vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+  }
+  .text-fluid-heading {
+    font-size: clamp(3rem, 7vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+  }
+  .text-fluid-body {
+    font-size: clamp(1rem, 1.3vw, 1.35rem);
+    line-height: 1.6;
+  }
+
+  @keyframes scroll-down {
+    0% { transform: translateY(-100%); }
+    50% { transform: translateY(0%); }
+    100% { transform: translateY(100%); }
+  }
+
+  .animate-scroll-down {
+    animation: scroll-down 2s cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+  }
+}
+
+/* Lenis Recommended CSS */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
