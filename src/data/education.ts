@@ -10,10 +10,11 @@ export interface Education {
 export const educationData: Education[] = [
   {
     id: "education-01",
-    period: "[2018 — 2022]", // REPLACE THIS
-    institution: "[UNIVERSITY NAME]", // REPLACE THIS
-    degree: "[B.S. COMPUTER SCIENCE]", // REPLACE THIS
-    field: "[SOFTWARE ENGINEERING]", // REPLACE THIS
-    description: "[OPTIONAL DESCRIPTION OF THESIS, HONORS, OR RELEVANT COURSEWORK.]" // REPLACE THIS
-  }
+    period: "2016 — 2020",
+    institution: "University of Asia Pacific",
+    degree: "B.Sc. in Computer Science and Engineering",
+    field: "Software Engineering",
+    description:
+      "Completed intensive coursework in Data Structures & Algorithms, Object-Oriented Programming, Database Management Systems, and Software Architecture with an active focus on competitive problem solving.",
+  },
 ];

@@ -11,6 +11,7 @@ export const AboutIntro: React.FC = () => {
   const bioRef = useRef<HTMLDivElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
   const lineRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
 
   useGSAP(() => {
     if (!containerRef.current || lineRefs.current.length === 0) return;
@@ -53,7 +54,7 @@ export const AboutIntro: React.FC = () => {
       "-=1.0"
     );
 
-    // 2. Spatial Separation (Hero Style) Exit Scrub
+    // 2. Spatial Separation (Hero Style) Exit Scrub - Horizontal direction
     const scrollTl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
@@ -63,13 +64,12 @@ export const AboutIntro: React.FC = () => {
       }
     });
 
-    // Dynamically separate lines based on index so it works with any number of lines
+    // Animate each line in opposite horizontal directions, like Zahid Hasan but purely X-axis
     lineRefs.current.forEach((line, i) => {
       if (!line) return;
       const isEven = i % 2 === 0;
       scrollTl.to(line, {
-        xPercent: isEven ? -10 - (i * 5) : 10 + (i * 5),
-        yPercent: isEven ? -30 : 30,
+        xPercent: isEven ? -40 : 40,
         opacity: 0,
         ease: 'none'
       }, 0);
@@ -141,6 +141,7 @@ export const AboutIntro: React.FC = () => {
         {/* CENTER: Massive Separating Statement (7 cols) */}
         <div className="md:col-span-7 lg:col-span-7">
           <h2 
+            ref={headlineRef}
             className="font-display font-bold uppercase tracking-tight text-foreground flex flex-col gap-2"
             style={{ fontSize: 'clamp(3rem, 7vw, 7rem)', lineHeight: 1 }} 
           >

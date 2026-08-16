@@ -3,10 +3,11 @@ import { gsap } from '../motion/gsap';
 import { useGSAP } from '@gsap/react';
 import { Text } from '../components/Text';
 import { usePreloader } from '../hooks/usePreloader';
-import { DigitalField } from '../components/DigitalField';
 
 export const Hero: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
+  const bgImageRef = useRef<HTMLImageElement>(null);
+  const introLineRef = useRef<HTMLDivElement>(null);
   const zahidRef = useRef<HTMLSpanElement>(null);
   const hasanRef = useRef<HTMLSpanElement>(null);
   const metadataRef = useRef<HTMLDivElement>(null);
@@ -24,15 +25,37 @@ export const Hero: React.FC = () => {
     // 1. ARRIVAL SEQUENCE (State 01)
     // ----------------------------------------------------
     if (prefersReducedMotion) {
-      tl.to([zahidRef.current, hasanRef.current, metadataRef.current, scrollIndicatorRef.current], { 
+      tl.to([zahidRef.current, hasanRef.current, metadataRef.current, scrollIndicatorRef.current, bgImageRef.current], { 
         opacity: 1, 
         duration: 0.8 
       });
     } else {
+      // Background image entrance
+      tl.fromTo(bgImageRef.current,
+        { scale: 1.1, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 2.5, ease: 'power2.out' }
+      );
+
+      // Left-side margin line entrance (draws down, then vanishes)
+      if (introLineRef.current) {
+        tl.fromTo(introLineRef.current,
+          { scaleY: 0, opacity: 1 },
+          { scaleY: 1, duration: 1.2, ease: 'power4.inOut' },
+          "-=2.0"
+        ).to(introLineRef.current, {
+          scaleY: 0,
+          opacity: 0,
+          transformOrigin: 'bottom',
+          duration: 1.2,
+          ease: 'power4.inOut'
+        }, "-=0.2");
+      }
+
       // Masked reveal for massive typography
       tl.fromTo([zahidRef.current, hasanRef.current], 
         { y: '100%' },
-        { y: '0%', duration: 1.6, stagger: 0.1, ease: 'power4.out' }
+        { y: '0%', duration: 1.6, stagger: 0.1, ease: 'power4.out' },
+        "-=2.0" // overlap with background entrance
       );
 
       // Metadata and Scroll indicator establish
@@ -86,30 +109,47 @@ export const Hero: React.FC = () => {
       // HASAN drifts bottom-right (+X, +Y)
       scrollTl.to(hasanRef.current, { xPercent: 15, yPercent: 50, opacity: 0, ease: 'none' }, 0);
 
-      // Digital field and metadata dissolve early to clear the canvas
+      // Metadata dissolve early to clear the canvas
       scrollTl.to([metadataRef.current, scrollIndicatorRef.current], { opacity: 0, ease: 'none', duration: 0.2 }, 0);
     }
     
     return () => {
-      // Event listeners are automatically cleaned up if we used GSAP context properly, 
-      // but manual cleanup for vanilla event listeners is safe.
+      // Cleanup logic if needed
     };
   }, [isPreloaderComplete]);
 
   return (
     <section 
       ref={containerRef}
-      className="relative w-full h-[100svh] flex flex-col justify-between px-page-gutter pt-32 pb-12 overflow-hidden"
+      className="relative w-full h-[100svh] flex flex-col justify-between px-page-gutter pt-32 pb-12 overflow-hidden bg-background"
     >
-      {/* LAYER 0: The Digital Field Background */}
-      <DigitalField />
+      {/* LAYER 0: The Photographic Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-background">
+        <img 
+          ref={bgImageRef}
+          src="/main.jpg" 
+          alt="Zahid Hasan Background" 
+          className="w-full h-full object-cover object-[center_40%] will-change-transform transform-gpu"
+          style={{ opacity: isPreloaderComplete ? undefined : 0 }}
+        />
+        {/* Dark overlay to guarantee text readability and app aesthetics */}
+        <div className="absolute inset-0 bg-background/70 md:bg-background/50 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-background/50" />
+      </div>
+
+      {/* Intro Vertical Line */}
+      <div 
+        ref={introLineRef}
+        className="absolute top-0 left-0 md:left-[5vw] w-[1px] h-full bg-white/30 z-20 origin-top pointer-events-none"
+        style={{ scale: 0 }} // Start hidden
+      />
 
       {/* LAYER 1: Support Metadata (Top Left) */}
       <div 
         ref={metadataRef} 
         className="opacity-0 max-w-sm relative z-10 pointer-events-none"
       >
-        <Text as="p" variant="mono" className="text-muted leading-relaxed uppercase">
+        <Text as="p" variant="mono" className="text-white/80 leading-relaxed uppercase">
           Software Engineer
           <br />
           Systems & Interfaces
@@ -119,7 +159,7 @@ export const Hero: React.FC = () => {
       {/* LAYER 2: Massive Stacked H1 (Bottom/Center Left) */}
       <div className="relative z-10 flex-1 flex items-end md:items-center mt-12 md:mt-0 pointer-events-none">
         <h1 
-          className="font-display font-bold uppercase select-none text-foreground"
+          className="font-display font-bold uppercase select-none text-white drop-shadow-lg"
           style={{ 
             fontSize: 'clamp(5rem, 15vw, 15rem)', 
             lineHeight: 0.85,
@@ -162,7 +202,7 @@ export const Hero: React.FC = () => {
           className="group flex flex-col items-center gap-2"
           data-cursor-interact="true"
         >
-          <Text as="span" variant="mono" className="text-xs text-muted group-hover:text-foreground transition-colors duration-300">
+          <Text as="span" variant="mono" className="text-xs text-white/60 group-hover:text-white transition-colors duration-300">
             SCROLL TO EXPLORE
           </Text>
           <div className="w-[1px] h-12 bg-white/20 relative overflow-hidden">

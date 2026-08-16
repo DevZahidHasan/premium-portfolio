@@ -12,8 +12,10 @@ export const skillsData: SkillCategory[] = [
     description: "[UI Engineering & Client-side architecture]", // REPLACE THIS
     skills: [
       "[REACT]", // REPLACE THIS
-      "[NEXT.JS]", // REPLACE THIS
+      "[NEXT.JS]",
+      "[Angular]", // REPLACE THIS
       "[TYPESCRIPT]", // REPLACE THIS
+      "[PostCSS]", // REPLACE THIS
       "[TAILWIND CSS]", // REPLACE THIS
       "[GSAP]" // REPLACE THIS
     ]
@@ -23,10 +25,13 @@ export const skillsData: SkillCategory[] = [
     label: "[BACKEND & APIS]", // REPLACE THIS
     description: "[Server-side logic & Data fetching]", // REPLACE THIS
     skills: [
-      "[NODE.JS]", // REPLACE THIS
+      "[NODE.JS]",
+      "[.NET CORE]", // REPLACE THIS
       "[EXPRESS]", // REPLACE THIS
       "[GRAPHQL]", // REPLACE THIS
-      "[REST APIS]" // REPLACE THIS
+      "[REST APIS]",
+      "[Sql]",
+      "[NoSQL]"
     ]
   },
   {
@@ -34,6 +39,8 @@ export const skillsData: SkillCategory[] = [
     label: "[TOOLS & DEVOPS]", // REPLACE THIS
     description: "[Deployment, CI/CD & Version Control]", // REPLACE THIS
     skills: [
+      "[GCP]", // REPLACE THIS
+      "[FIRESTORE]",
       "[GIT]", // REPLACE THIS
       "[GITHUB ACTIONS]", // REPLACE THIS
       "[VERCEL]", // REPLACE THIS

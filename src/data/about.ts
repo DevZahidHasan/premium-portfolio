@@ -15,29 +15,29 @@ export interface AboutData {
 export const aboutData: AboutData = {
   eyebrow: "01 / ABOUT",
   headline: ["I TURN COMPLEX", "IDEAS INTO DIGITAL", "EXPERIENCES."],
-  bio: "I am a results-oriented Software Engineer with a strong background in full-stack development, specializing in building scalable enterprise-grade solutions. I have experience architecting complex systems, including comprehensive banking and educational ERPs, and inventory management platforms utilizing modern frameworks like Angular, React, Node.js, and TypeScript.", // REPLACE THIS
+  bio: "I am a results-oriented Software Engineer with a strong background in full-stack development, specializing in building scalable enterprise-grade solutions. I have experience architecting complex systems, including comprehensive banking and educational ERPs, and inventory management platforms utilizing modern frameworks like Angular, React, Node.js, and TypeScript.",
   secondaryBio:
-    "Focused on building high-performance web applications, thoughtful interfaces, and scalable frontend systems with React, TypeScript, and modern web technologies.", // REPLACE THIS
-  location: "Dhaka, Bangladesh", // REPLACE THIS
-  availability: "OPEN TO NEW OPPORTUNITIES", // REPLACE THIS
- disciplines: [
-  {
-    title: "FRONTEND",
-    description:
-      "Building responsive, high-performance interfaces with a strong focus on usability, visual precision, accessibility, and maintainable frontend architecture.",
-    focus: ["REACT","Angular", "TYPESCRIPT", "NEXT.JS"],
-  },
- {
-    title: "BACKEND",
-    description:
-      "Designing reliable backend systems and APIs with a focus on scalability, clean architecture, data modeling, and production-ready cloud infrastructure.",
-    focus: [".NET", "NODE.JS", "GCP", "FIRESTORE"],
-  },
-  {
-    title: "INTERFACES",
-    description:
-      "Creating refined digital experiences where interaction, motion, typography, and engineering come together to make complex products feel simple.",
-    focus: ["UI/UX", "GSAP", "WEBGL"],
-  },
-],
+    "Focused on building high-performance web applications, thoughtful interfaces, and scalable frontend systems with React, TypeScript, and modern web technologies.",
+  location: "Dhaka, Bangladesh",
+  availability: "OPEN TO NEW OPPORTUNITIES",
+  disciplines: [
+    {
+      title: "ARCHITECTURE",
+      description:
+        "Designing robust systems and clean code foundations that scale seamlessly for enterprise-grade applications and complex data flows.",
+      focus: ["SYSTEM DESIGN", "DATA MODELING", "SCALABILITY"],
+    },
+    {
+      title: "ENGINEERING",
+      description:
+        "Developing sophisticated logic and optimizing heavy operations, transforming intricate business requirements into high-performance software.",
+      focus: ["PERFORMANCE", "OPTIMIZATION", "SECURITY"],
+    },
+    {
+      title: "EXPERIENCES",
+      description:
+        "Crafting precise, cinematic digital interfaces where motion, usability, and aesthetics converge into an unforgettable product.",
+      focus: ["INTERACTION", "MOTION", "ACCESSIBILITY"],
+    },
+  ],
 };

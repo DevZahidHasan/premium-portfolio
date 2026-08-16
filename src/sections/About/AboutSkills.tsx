@@ -11,53 +11,53 @@ export const AboutSkills: React.FC = () => {
   useGSAP(() => {
     if (!containerRef.current) return;
     
-    const matchMediaFine = window.matchMedia('(pointer: fine)').matches;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ScrollTrigger = gsap.core.globals().ScrollTrigger as any;
 
-    if (matchMediaFine && !prefersReducedMotion) {
-      categoriesRef.current.forEach((categoryEl, index) => {
-        if (!categoryEl) return;
+    if (!prefersReducedMotion) {
+      // Animate categories fading and sliding up sequentially
+      gsap.fromTo(categoriesRef.current, 
+        { y: 40, opacity: 0 },
+        { 
+          y: 0, 
+          opacity: 1, 
+          stagger: 0.15, 
+          duration: 1.2, 
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 75%',
+          }
+        }
+      );
+
+      // Stagger animate individual skill items within each category
+      categoriesRef.current.forEach(cat => {
+        if (!cat) return;
+        const items = cat.querySelectorAll('.skill-item');
+        const divider = cat.querySelector('.skill-divider');
         
-        const titleEl = categoryEl.querySelector('.skill-title');
-        const contentEl = categoryEl.querySelector('.skill-content');
-        const skillsEl = categoryEl.querySelectorAll('.skill-item');
-        
-        // Initial setup for the content container
-        gsap.set(contentEl, { height: 0, opacity: 0, overflow: 'hidden' });
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: cat,
+            start: 'top 85%',
+          }
+        });
 
-        const onMouseEnter = () => {
-          // Dim other categories
-          categoriesRef.current.forEach((el, i) => {
-            if (el && i !== index) gsap.to(el, { opacity: 0.25, duration: 0.4, ease: "power2.out" });
-          });
-          gsap.to(categoryEl, { opacity: 1, duration: 0.4, ease: "power2.out" });
-
-          // Expand content
-          gsap.to(contentEl, { height: 'auto', opacity: 1, duration: 0.5, ease: "power2.out" });
-          
-          // Stagger the skill items inward
-          gsap.fromTo(skillsEl, 
-            { y: 10, opacity: 0 }, 
-            { y: 0, opacity: 1, stagger: 0.05, duration: 0.5, ease: "power3.out" }
+        if (divider) {
+          tl.fromTo(divider, 
+            { scaleX: 0, transformOrigin: 'left center' },
+            { scaleX: 1, duration: 0.8, ease: 'power4.inOut' }
           );
-          
-          gsap.to(titleEl, { x: 12, duration: 0.5, ease: "power3.out" });
-        };
+        }
 
-        const onMouseLeave = () => {
-          // Restore all categories
-          categoriesRef.current.forEach((el) => {
-            if (el) gsap.to(el, { opacity: 1, duration: 0.6, ease: "power2.out" });
-          });
-          
-          // Collapse content
-          gsap.to(contentEl, { height: 0, opacity: 0, duration: 0.4, ease: "power2.inOut" });
-          
-          gsap.to(titleEl, { x: 0, duration: 0.5, ease: "power3.out" });
-        };
-
-        categoryEl.addEventListener('mouseenter', onMouseEnter);
-        categoryEl.addEventListener('mouseleave', onMouseLeave);
+        if (items.length) {
+          tl.fromTo(items,
+            { x: -10, opacity: 0 },
+            { x: 0, opacity: 1, stagger: 0.08, duration: 0.6, ease: 'power2.out' },
+            "-=0.4"
+          );
+        }
       });
     }
 
@@ -66,56 +66,55 @@ export const AboutSkills: React.FC = () => {
   return (
     <section 
       ref={containerRef}
-      className="w-full py-24 md:py-48 px-page-gutter relative z-10"
-      id="skills"
+      className="w-full py-24 md:py-48 px-page-gutter relative z-10 bg-background"
+      id="capabilities"
     >
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-grid-gap items-start">
         
-        {/* LEFT COLUMN: Title (2 cols on desktop) */}
-        <div className="md:col-span-2">
-          <Text as="span" variant="mono" className="text-muted text-[11px] uppercase tracking-widest block mb-12 md:mb-0">
+        {/* LEFT COLUMN: Title (3 cols on desktop) */}
+        <div className="md:col-span-3">
+          <Text as="span" variant="mono" className="text-muted text-[11px] uppercase tracking-widest block mb-12 md:mb-0 pt-2">
             04 / Capabilities
           </Text>
         </div>
 
-        {/* RIGHT COLUMN: Taxonomy (10 cols) */}
-        <div className="md:col-span-10 flex flex-col border-t border-white/10 pt-8">
+        {/* RIGHT COLUMN: Precise Technical Grid (9 cols) */}
+        <div className="md:col-span-9 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 pt-8 md:pt-0">
           {skillsData.map((category, index) => (
             <div 
               key={category.id} 
               ref={el => categoriesRef.current[index] = el}
-              className="group relative border-b border-white/10 last:border-b-0 py-8 md:py-12 cursor-default will-change-transform transform-gpu"
+              className="flex flex-col will-change-transform opacity-0"
             >
-              <div className="flex flex-col gap-6">
-                
-                <h4 
-                  className="skill-title font-display font-bold uppercase tracking-tighter text-foreground will-change-transform transform-gpu"
-                  style={{ fontSize: 'clamp(3rem, 7vw, 7rem)', lineHeight: 0.9 }}
-                >
-                  {category.label}
+              {/* Category Header */}
+              <div className="pb-6 mb-6 relative">
+                <div className="skill-divider absolute bottom-0 left-0 w-full h-[1px] bg-white/10" />
+                <h4 className="font-mono text-sm md:text-base uppercase tracking-widest text-foreground font-bold">
+                  {category.label.replace(/\[|\]/g, '')}
                 </h4>
-                
-                <div className="skill-content will-change-transform transform-gpu">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 pb-8">
-                    {category.description && (
-                      <p className="font-mono text-sm md:text-base text-foreground/70 max-w-sm leading-relaxed">
-                        {category.description}
-                      </p>
-                    )}
-                    <div className="flex flex-wrap gap-x-6 gap-y-4">
-                      {category.skills.map((skill, i) => (
-                        <div 
-                          key={i} 
-                          className="skill-item font-mono text-xs md:text-sm uppercase tracking-widest text-foreground will-change-transform transform-gpu"
-                        >
-                          {skill}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
+                {category.description && (
+                  <p className="font-mono text-[10px] text-muted/70 uppercase tracking-widest mt-3 leading-relaxed">
+                    {category.description.replace(/\[|\]/g, '')}
+                  </p>
+                )}
               </div>
+
+              {/* Skills List */}
+              <ul className="flex flex-col gap-4">
+                {category.skills.map((skill, i) => (
+                  <li 
+                    key={i} 
+                    className="skill-item group flex items-center gap-4 cursor-default"
+                  >
+                    <div className="relative flex items-center justify-center w-2 h-2">
+                      <span className="absolute w-1 h-1 rounded-full bg-white/20 transition-all duration-300 group-hover:scale-150 group-hover:bg-white" />
+                    </div>
+                    <span className="font-mono text-xs md:text-sm tracking-wider text-foreground/70 transition-colors duration-300 group-hover:text-foreground">
+                      {skill.replace(/\[|\]/g, '')}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
