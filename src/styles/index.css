@@ -27,7 +27,7 @@
   }
   
   /* Only hide cursor if device has a fine pointer (mouse) */
-  @media (pointer: fine) {
+  @media (any-pointer: fine) {
     body {
       cursor: none;
     }

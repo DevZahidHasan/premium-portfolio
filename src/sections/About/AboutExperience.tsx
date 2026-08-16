@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { gsap } from '../../motion/gsap';
 import { useGSAP } from '@gsap/react';
 import { Text } from '../../components/Text';
+import { FloatingSnippets } from '../../components/FloatingSnippets';
 import { experienceData } from '../../data/experience';
 
 export const AboutExperience: React.FC = () => {
@@ -87,14 +88,16 @@ export const AboutExperience: React.FC = () => {
   return (
     <section 
       ref={containerRef} 
-      className="w-full py-24 md:py-48 px-page-gutter relative z-10 bg-background"
+      className="w-full py-24 md:py-48 px-page-gutter relative z-10 bg-background overflow-hidden"
       id="experience"
     >
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-grid-gap">
+      <FloatingSnippets />
+      
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-grid-gap relative z-10">
         
         {/* LEFT COLUMN: Pinned Title */}
         <div className="md:col-span-3">
-          <div ref={leftColRef} className="pt-2 pb-8">
+          <div ref={leftColRef} className="pt-2 pb-8 relative z-50">
             <Text as="span" variant="mono" className="text-muted text-[11px] uppercase tracking-widest block">
               03 / Experience
             </Text>

@@ -57,46 +57,44 @@ export const AboutIdentity: React.FC = () => {
       gsap.set(containerRef.current, { opacity: 1 });
     }
 
-    // Hover interactions
-    if (matchMediaFine && !prefersReducedMotion) {
-      itemsRef.current.forEach((item, index) => {
-        if (!item) return;
+    // Hover interactions (Unconditional so it works on touch/mobile and regardless of motion prefs)
+    itemsRef.current.forEach((item, index) => {
+      if (!item) return;
 
-        const onMouseEnter = () => {
-          itemsRef.current.forEach((el, i) => {
-            if (el && i !== index) {
-              gsap.to(el, { opacity: 0.2, duration: 0.5, ease: 'power2.out' });
-            }
-          });
-          
-          gsap.to(item, { opacity: 1, duration: 0.5, ease: 'power2.out' });
-          gsap.to(item.querySelector('.identity-content'), { 
-            height: 'auto', 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.5, 
-            ease: 'power2.out' 
-          });
-        };
+      const onMouseEnter = () => {
+        itemsRef.current.forEach((el, i) => {
+          if (el && i !== index) {
+            gsap.to(el, { opacity: 0.2, duration: prefersReducedMotion ? 0 : 0.5, ease: 'power2.out' });
+          }
+        });
+        
+        gsap.to(item, { opacity: 1, duration: prefersReducedMotion ? 0 : 0.5, ease: 'power2.out' });
+        gsap.to(item.querySelector('.identity-content'), { 
+          height: 'auto', 
+          opacity: 1, 
+          y: 0, 
+          duration: prefersReducedMotion ? 0 : 0.5, 
+          ease: 'power2.out' 
+        });
+      };
 
-        const onMouseLeave = () => {
-          itemsRef.current.forEach((el) => {
-            if (el) gsap.to(el, { opacity: 1, duration: 0.5, ease: 'power2.out' });
-          });
+      const onMouseLeave = () => {
+        itemsRef.current.forEach((el) => {
+          if (el) gsap.to(el, { opacity: 1, duration: prefersReducedMotion ? 0 : 0.5, ease: 'power2.out' });
+        });
 
-          gsap.to(item.querySelector('.identity-content'), { 
-            height: 0, 
-            opacity: 0, 
-            y: -10, 
-            duration: 0.4, 
-            ease: 'power2.inOut' 
-          });
-        };
+        gsap.to(item.querySelector('.identity-content'), { 
+          height: 0, 
+          opacity: 0, 
+          y: -10, 
+          duration: prefersReducedMotion ? 0 : 0.4, 
+          ease: 'power2.inOut' 
+        });
+      };
 
-        item.addEventListener('mouseenter', onMouseEnter);
-        item.addEventListener('mouseleave', onMouseLeave);
-      });
-    }
+      item.addEventListener('mouseenter', onMouseEnter);
+      item.addEventListener('mouseleave', onMouseLeave);
+    });
 
   }, []);
 

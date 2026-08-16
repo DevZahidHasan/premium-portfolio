@@ -36,19 +36,30 @@ export const Hero: React.FC = () => {
         { scale: 1, opacity: 1, duration: 2.5, ease: 'power2.out' }
       );
 
-      // Left-side margin line entrance (draws down, then vanishes)
+      // Left-side margin line entrance (starts thick, shrinks thin, then vanishes)
       if (introLineRef.current) {
-        tl.fromTo(introLineRef.current,
-          { scaleY: 0, opacity: 1 },
-          { scaleY: 1, duration: 1.2, ease: 'power4.inOut' },
-          "-=2.0"
-        ).to(introLineRef.current, {
+        gsap.set(introLineRef.current, { width: '16px', scaleY: 0, opacity: 1 });
+        
+        // 1. Drop down thick
+        tl.to(introLineRef.current, {
+          scaleY: 1, 
+          duration: 1.0, 
+          ease: 'power3.out' 
+        }, "-=2.0")
+        // 2. Shrink to thin
+        .to(introLineRef.current, {
+          width: '1px',
+          duration: 0.8,
+          ease: 'power2.inOut'
+        }, "-=0.2")
+        // 3. Vanish upward
+        .to(introLineRef.current, {
           scaleY: 0,
           opacity: 0,
           transformOrigin: 'bottom',
-          duration: 1.2,
+          duration: 1.0,
           ease: 'power4.inOut'
-        }, "-=0.2");
+        }, "+=0.5");
       }
 
       // Masked reveal for massive typography
@@ -140,8 +151,8 @@ export const Hero: React.FC = () => {
       {/* Intro Vertical Line */}
       <div 
         ref={introLineRef}
-        className="absolute top-0 left-0 md:left-[5vw] w-[1px] h-full bg-white/30 z-20 origin-top pointer-events-none"
-        style={{ scale: 0 }} // Start hidden
+        className="absolute top-0 left-[8vw] md:left-[12vw] h-full bg-white z-20 origin-top pointer-events-none will-change-transform transform-gpu"
+        style={{ transform: 'scaleY(0)' }}
       />
 
       {/* LAYER 1: Support Metadata (Top Left) */}

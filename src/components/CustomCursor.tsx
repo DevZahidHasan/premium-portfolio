@@ -8,7 +8,7 @@ export const CustomCursor: React.FC = () => {
   const [isFinePointer, setIsFinePointer] = useState(true);
 
   useGSAP(() => {
-    const matchMedia = window.matchMedia('(pointer: fine)');
+    const matchMedia = window.matchMedia('(any-pointer: fine)');
     setIsFinePointer(matchMedia.matches);
 
     if (!matchMedia.matches || !cursorRef.current || !haloRef.current) return;
