@@ -5,13 +5,8 @@ import { useGSAP } from '@gsap/react';
 export const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const haloRef = useRef<HTMLDivElement>(null);
-  const [isFinePointer, setIsFinePointer] = useState(true);
-
   useGSAP(() => {
-    const matchMedia = window.matchMedia('(any-pointer: fine)');
-    setIsFinePointer(matchMedia.matches);
-
-    if (!matchMedia.matches || !cursorRef.current || !haloRef.current) return;
+    if (!cursorRef.current || !haloRef.current) return;
 
     gsap.set(cursorRef.current, { xPercent: -50, yPercent: -50 });
     gsap.set(haloRef.current, { xPercent: -50, yPercent: -50, scale: 0 });
@@ -96,8 +91,6 @@ export const CustomCursor: React.FC = () => {
       window.removeEventListener('mouseout', onMouseOut);
     };
   }, []);
-
-  if (!isFinePointer) return null;
 
   return (
     <>

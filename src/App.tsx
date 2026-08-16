@@ -7,6 +7,7 @@ import { Layout } from './components/Layout';
 import { PreloaderProvider } from './hooks/usePreloader';
 import { Hero } from './sections/Hero';
 import { AboutContainer } from './sections/About/AboutContainer';
+import { WorkContainer } from './sections/Work/WorkContainer';
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Layout>
           <Hero />
           <AboutContainer />
+          <WorkContainer />
         </Layout>
       </LenisProvider>
     </PreloaderProvider>

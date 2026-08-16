@@ -18,7 +18,7 @@ export const AboutPhilosophy: React.FC = () => {
 
     const ScrollTrigger = gsap.core.globals().ScrollTrigger as any;
 
-    const totalDuration = philosophyData.length + 1;
+    const totalDuration = philosophyData.length;
 
     // Fade out the label as we scroll deep into the philosophy chapter
     gsap.to(labelRef.current, {
@@ -38,6 +38,7 @@ export const AboutPhilosophy: React.FC = () => {
       end: `+=${totalDuration * 100}%`,
       pin: true,
       scrub: 1, 
+      refreshPriority: 1,
       animation: (() => {
         const tl = gsap.timeline();
         
@@ -62,37 +63,13 @@ export const AboutPhilosophy: React.FC = () => {
               "<0.4"
             );
             
-            if (!isLastWord) {
-              tl.to(wordElement, {
-                scale: 1.15,
-                opacity: 0,
-                duration: 1,
-                ease: 'power2.inOut'
-              });
-            }
-          }
-
-          if (isLastWord) {
-            // Compress and move text to transition into Phase 6
-            tl.to(statementEl, { opacity: 0, duration: 0.5, ease: 'power2.inOut' });
-
-            tl.to(textEl, {
-              letterSpacing: '-0.05em',
-              scale: 0.15,
-              x: '-40vw',
-              y: '-40vh',
+            // Allow the last word to smoothly fade out before unpinning
+            tl.to(wordElement, {
+              scale: 1.15,
               opacity: 0,
-              duration: 1.5,
-              ease: 'power3.inOut'
-            }, "<");
-
-            if (workTransitionRef.current) {
-              tl.fromTo(workTransitionRef.current,
-                { opacity: 0, scale: 0.9, x: '-40vw', y: '-40vh' },
-                { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' },
-                "-=0.5"
-              );
-            }
+              duration: 1,
+              ease: 'power2.inOut'
+            });
           }
         });
         
@@ -139,16 +116,6 @@ export const AboutPhilosophy: React.FC = () => {
           )}
         </div>
       ))}
-
-      {/* The label that emerges to transition into Phase 6 */}
-      <div 
-        ref={workTransitionRef} 
-        className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 will-change-transform transform-gpu"
-      >
-        <Text as="span" variant="mono" className="text-muted text-xs uppercase tracking-widest block">
-          Selected Work
-        </Text>
-      </div>
     </section>
   );
 };

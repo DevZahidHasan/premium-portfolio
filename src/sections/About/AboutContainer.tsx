@@ -8,7 +8,7 @@ import { AboutPhilosophy } from './AboutPhilosophy';
 
 export const AboutContainer: React.FC = () => {
   return (
-    <div className="flex flex-col w-full relative bg-background z-20">
+    <div className="w-full relative bg-background z-20">
       {/* 
         No hard horizontal borders. 
         Instead we rely on generous spatial padding (py-32 or py-48)
