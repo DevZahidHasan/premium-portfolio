@@ -21,12 +21,25 @@ export const WorkContainer: React.FC = () => {
   return (
     <section 
       ref={containerRef}
-      className="relative w-full bg-[#F8F9FA] pt-32 pb-48 z-10"
+      className="relative w-full bg-[#F8F9FA] z-10"
     >
       <FloatingCursors />
       
+      {/* "Let's Work Together" Pre-Work Hero */}
+      <div className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center px-4">
+        <h2 className="font-display font-bold text-6xl md:text-8xl text-black text-center leading-tight tracking-tight max-w-4xl">
+          Let's <span className="font-serif italic text-cyan-400 font-normal">create</span><br/>
+          something together.
+        </h2>
+        <a 
+          href="#contact"
+          className="mt-12 px-8 py-3 rounded-full border border-cyan-400 text-black font-mono text-sm hover:bg-cyan-50 transition-colors"
+        >
+          Contact
+        </a>
+      </div>
+
       <div className="relative z-10 w-full">
-        <WorkHeader />
         <WorkGrid />
       </div>
     </section>
