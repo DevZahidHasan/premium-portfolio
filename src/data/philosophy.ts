@@ -7,22 +7,22 @@ export interface PhilosophyItem {
 export const philosophyData: PhilosophyItem[] = [
   {
     id: "phil-01",
-    word: "[CLARITY]", // REPLACE THIS
-    statement: "[Clear interfaces and architecture reduce cognitive load.]" // REPLACE THIS
+    word: "SCALABILITY",
+    statement: "Engineering enterprise systems that handle complexity without compromising reliability."
   },
   {
     id: "phil-02",
-    word: "[PRECISION]", // REPLACE THIS
-    statement: "[Every pixel and interaction is highly intentional.]" // REPLACE THIS
+    word: "PRECISION",
+    statement: "Executing every line of code, database index, and user interaction with exact intent."
   },
   {
     id: "phil-03",
-    word: "[PERFORMANCE]", // REPLACE THIS
-    statement: "[Smooth motion and fast load times are non-negotiable.]" // REPLACE THIS
+    word: "PERFORMANCE",
+    statement: "Optimizing architecture for sub-second response times and flawless user experiences."
   },
   {
     id: "phil-04",
-    word: "[CRAFT]", // REPLACE THIS
-    statement: "[Bridging the gap between engineering and design.]" // REPLACE THIS
+    word: "CRAFT",
+    statement: "Bridging the gap between robust backend architecture and cinematic frontend design."
   }
 ];
