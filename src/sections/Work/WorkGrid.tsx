@@ -1,44 +1,44 @@
-import React, { useRef } from 'react';
-import { gsap } from '../../motion/gsap';
-import { useGSAP } from '@gsap/react';
+import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { projects } from '../../data/projects';
-import { Text } from '../../components/Text';
 import clsx from 'clsx';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const WorkGrid: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  useGSAP(() => {
-    if (!containerRef.current) return;
-    
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+  useEffect(() => {
+    if (!containerRef.current || itemsRef.current.length === 0) return;
 
-    itemsRef.current.forEach((item, index) => {
+    itemsRef.current.forEach((item) => {
       if (!item) return;
-      
-      const imageWrapper = item.querySelector('.project-image-wrapper');
-      
-      // Entrance animation disabled for debugging
-      
-      // Subtle Parallax on the image wrapper
-      if (imageWrapper) {
-        // Even indices move slightly slower, odd indices move slightly faster
-        const yPercent = index % 2 === 0 ? 15 : -15;
-        
-        gsap.to(imageWrapper, {
-          yPercent,
-          ease: 'none',
+
+      gsap.fromTo(item, 
+        { 
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: item,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true
+            start: 'top 85%',
+            toggleActions: 'play none none reverse',
           }
-        });
-      }
+        }
+      );
     });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(st => st.kill());
+    };
   }, []);
 
   return (
@@ -65,11 +65,22 @@ export const WorkGrid: React.FC = () => {
                 !isEven ? "md:mt-48" : ""
               )}
             >
-              <div className="text-[10px] font-mono text-black/40 mb-2 ml-2">Project {index + 1}</div>
+              <div className="flex items-center gap-4 mb-2 ml-2">
+                <span className="text-[10px] font-mono text-black/40">Project {index + 1}</span>
+                {project.projectType === 'personal' ? (
+                  <span className="px-2 py-0.5 rounded-full border border-black/10 text-[9px] font-mono font-bold tracking-wider uppercase bg-white text-black/60">
+                    {project.projectType}
+                  </span>
+                ) : (
+                  <span className="px-2 py-0.5 rounded-full border border-black text-[9px] font-mono font-bold tracking-wider uppercase bg-black text-white">
+                    {project.projectType || 'Enterprise'}
+                  </span>
+                )}
+              </div>
               
               {/* Card */}
-              <a 
-                href={`#project-${project.id}`}
+              <Link 
+                to={`/project/${project.id}`}
                 className="block w-full bg-white rounded-[32px] p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/[0.03] transition-transform duration-500 hover:-translate-y-2 relative"
               >
                 {/* Image Container */}
@@ -107,7 +118,7 @@ export const WorkGrid: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </a>
+              </Link>
             </div>
           );
         })}
