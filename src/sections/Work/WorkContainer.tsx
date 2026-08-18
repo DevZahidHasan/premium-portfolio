@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from '../../motion/gsap';
 import { useGSAP } from '@gsap/react';
 import { WorkHeader } from './WorkHeader';
@@ -20,6 +21,7 @@ export const WorkContainer: React.FC = () => {
 
   return (
     <section 
+      id="work"
       ref={containerRef}
       className="relative w-full bg-[#F8F9FA] z-10"
     >
@@ -31,12 +33,12 @@ export const WorkContainer: React.FC = () => {
           Let's <span className="font-serif italic text-cyan-400 font-normal">create</span><br/>
           something together.
         </h2>
-        <a 
-          href="#contact"
+        <Link 
+          to="/contact"
           className="mt-12 px-8 py-3 rounded-full border border-cyan-400 text-black font-mono text-sm hover:bg-cyan-50 transition-colors"
         >
           Contact
-        </a>
+        </Link>
       </div>
 
       <div className="relative z-10 w-full">

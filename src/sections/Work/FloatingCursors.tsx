@@ -10,12 +10,16 @@ interface FakeCursor {
 }
 
 const cursors: FakeCursor[] = [
-  { id: 1, name: 'Milena', color: '#D946EF', initialX: '15%', initialY: '20%' }, // Fuchsia/Pink
-  { id: 2, name: 'Emilian', color: '#D946EF', initialX: '75%', initialY: '15%' }, // Fuchsia/Pink
-  { id: 3, name: 'You', color: '#10B981', initialX: '65%', initialY: '45%' }, // Emerald/Green
-  { id: 4, name: 'Anonysm', color: '#3B82F6', initialX: '55%', initialY: '85%' }, // Blue
-  { id: 5, name: 'Zahid', color: '#06B6D4', initialX: '25%', initialY: '70%' }, // Cyan
-  { id: 6, name: 'Lila', color: '#F59E0B', initialX: '85%', initialY: '90%' }, // Amber/Orange
+  { id: 1, name: 'Zahid', color: '#D946EF', initialX: '15%', initialY: '20%' }, // Fuchsia/Pink
+  { id: 2, name: 'Hasan', color: '#3B82F6', initialX: '75%', initialY: '15%' }, // Blue
+  { id: 3, name: 'Zahid', color: '#10B981', initialX: '65%', initialY: '45%' }, // Emerald/Green
+  { id: 4, name: 'Hasan', color: '#06B6D4', initialX: '55%', initialY: '85%' }, // Cyan
+  { id: 5, name: 'Zahid', color: '#F59E0B', initialX: '25%', initialY: '70%' }, // Amber
+  { id: 6, name: 'Hasan', color: '#EF4444', initialX: '85%', initialY: '90%' }, // Red
+  { id: 7, name: 'Zahid', color: '#8B5CF6', initialX: '10%', initialY: '60%' }, // Purple
+  { id: 8, name: 'Hasan', color: '#14B8A6', initialX: '45%', initialY: '30%' }, // Teal
+  { id: 9, name: 'Zahid', color: '#F43F5E', initialX: '90%', initialY: '40%' }, // Rose
+  { id: 10, name: 'Hasan', color: '#84CC16', initialX: '35%', initialY: '10%' }, // Lime
 ];
 
 export const FloatingCursors: React.FC = () => {

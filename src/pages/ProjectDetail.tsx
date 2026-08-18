@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import clsx from 'clsx';
 import { useParams, Link } from 'react-router-dom';
 import { projects } from '../data/projects';
 
@@ -9,6 +10,16 @@ export const ProjectDetail: React.FC = () => {
   const project = projects[projectIndex];
   
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  // Handle escape key for lightbox
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedImage(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
   
   // Scroll to top on mount
   useEffect(() => {
@@ -89,11 +100,14 @@ export const ProjectDetail: React.FC = () => {
         </div>
 
         {/* Main Image */}
-        <div className="w-full rounded-[32px] overflow-hidden bg-[#F4F4F2] mb-32 relative aspect-[16/9] md:aspect-[21/9]">
+        <div 
+          className="w-full rounded-[32px] overflow-hidden bg-[#F4F4F2] mb-32 relative aspect-[16/9] md:aspect-[21/9] cursor-zoom-in group"
+          onClick={() => setSelectedImage(project.thumbnail)}
+        >
           <img 
             src={project.thumbnail} 
             alt={project.title} 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
           />
         </div>
 
@@ -162,8 +176,15 @@ export const ProjectDetail: React.FC = () => {
               `}</style>
               {(project.screens || project.images)!.map((screen, idx) => (
                 <div key={idx} className="flex-none w-[85%] md:w-[70%] lg:w-[60%] snap-center">
-                  <div className="w-full aspect-[16/9] bg-[#F4F4F2] rounded-[24px] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/[0.03]">
-                    <img src={screen} alt={`Screen ${idx + 1}`} className="w-full h-full object-cover" />
+                  <div 
+                    className="w-full aspect-[16/9] bg-[#F4F4F2] rounded-[24px] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/[0.03] cursor-zoom-in group"
+                    onClick={() => setSelectedImage(screen)}
+                  >
+                    <img 
+                      src={screen} 
+                      alt={`Screen ${idx + 1}`} 
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]" 
+                    />
                   </div>
                 </div>
               ))}
@@ -202,6 +223,40 @@ export const ProjectDetail: React.FC = () => {
           </div>
         </div>
 
+      </div>
+
+      {/* Premium Lightbox */}
+      <div 
+        className={clsx(
+          "fixed inset-0 z-[100] flex items-center justify-center bg-[#F8F9FA]/95 backdrop-blur-xl transition-all duration-500 cursor-zoom-out",
+          selectedImage ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        )}
+        onClick={() => setSelectedImage(null)}
+      >
+        <div 
+          className={clsx(
+            "relative w-full h-full max-w-[90vw] max-h-[90vh] p-4 flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
+            selectedImage ? "scale-100 translate-y-0 opacity-100" : "scale-[0.95] translate-y-8 opacity-0"
+          )}
+        >
+          {selectedImage && (
+            <img 
+              src={selectedImage} 
+              alt="Fullscreen view" 
+              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+            />
+          )}
+          
+          <button 
+            className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center bg-black/5 rounded-full hover:bg-black/10 transition-colors text-black/60 hover:text-black"
+            onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );
