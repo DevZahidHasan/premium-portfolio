@@ -68,21 +68,23 @@ export const WorkGrid: React.FC = () => {
               <div className="flex items-center gap-4 mb-2 ml-2">
                 <span className="text-[10px] font-mono text-black/40">Project {index + 1}</span>
                 {project.projectType === 'personal' ? (
-                  <span className="px-2 py-0.5 rounded-full border border-black/10 text-[9px] font-mono font-bold tracking-wider uppercase bg-white text-black/60">
+                  <span className="px-3 py-1 rounded-full border border-black/10 text-[11px] font-mono font-bold tracking-wider uppercase bg-white text-black/60">
                     {project.projectType}
                   </span>
                 ) : (
-                  <span className="px-2 py-0.5 rounded-full border border-black text-[9px] font-mono font-bold tracking-wider uppercase bg-black text-white">
+                  <span className="px-3 py-1 rounded-full border border-black text-[11px] font-mono font-bold tracking-wider uppercase bg-black text-white">
                     {project.projectType || 'Enterprise'}
                   </span>
                 )}
               </div>
               
-              {/* Card */}
-              <Link 
-                to={`/project/${project.id}`}
-                className="block w-full bg-white rounded-[32px] p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/[0.03] transition-transform duration-500 hover:-translate-y-2 relative"
+              {/* Card Container */}
+              <div 
+                className="block w-full bg-white rounded-[32px] p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/[0.03] transition-transform duration-500 hover:-translate-y-2 relative group"
               >
+                {/* Main clickable area for the whole card */}
+                <Link to={`/project/${project.id}`} className="absolute inset-0 z-10 rounded-[32px]" aria-label={`View ${project.title} details`} />
+                
                 {/* Image Container */}
                 <div className="w-full aspect-[4/3] rounded-[24px] bg-[#F4F4F2] overflow-hidden mb-6 relative">
                   <img 
@@ -110,15 +112,32 @@ export const WorkGrid: React.FC = () => {
                       ))}
                     </div>
                     
-                    {/* Link Icon */}
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-black/40 group-hover:text-black transition-colors">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M7 17l9.2-9.2M17 17V7H7"/>
-                      </svg>
+                    {/* Links */}
+                    <div className="flex items-center gap-3 relative z-20">
+                      {project.liveLink && (
+                        <a 
+                          href={project.liveLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-2 px-3 py-1.5 bg-black text-white rounded-full font-mono text-[10px] tracking-wider uppercase hover:bg-black/80 transition-colors"
+                        >
+                          Live Site
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                          </svg>
+                        </a>
+                      )}
+                      
+                      {/* Project Detail Link Icon (purely visual since whole card is clickable) */}
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-black/40 group-hover:text-black transition-colors pointer-events-none">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                        </svg>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </Link>
+              </div>
             </div>
           );
         })}
