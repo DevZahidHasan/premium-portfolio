@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { gsap } from '../../motion/gsap';
 import { useGSAP } from '@gsap/react';
 import { Text } from '../../components/Text';
@@ -15,7 +15,7 @@ export const AboutIdentity: React.FC = () => {
     if (!containerRef.current) return;
     
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const matchMediaFine = window.matchMedia('(pointer: fine)').matches;
+    window.matchMedia('(pointer: fine)').matches;
 
     // Premium Scroll Reveal
     if (!prefersReducedMotion) {
@@ -121,7 +121,7 @@ export const AboutIdentity: React.FC = () => {
             {aboutData.disciplines.map((discipline, index) => (
               <div 
                 key={index} 
-                ref={el => itemsRef.current[index] = el}
+                ref={(el) => { itemsRef.current[index] = el; }}
                 className="group flex flex-col md:flex-row md:items-baseline gap-4 md:gap-16 cursor-default will-change-transform transform-gpu py-4"
               >
                 {/* Overflow hidden mask wrapper for premium reveal */}

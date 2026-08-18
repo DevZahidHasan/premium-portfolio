@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { gsap, ScrollTrigger } from '../../motion/gsap';
+import { gsap } from '../../motion/gsap';
 import { useGSAP } from '@gsap/react';
 import { Text } from '../../components/Text';
 import { skillsData } from '../../data/skills';
@@ -146,7 +146,7 @@ export const AboutSkills: React.FC = () => {
             return (
               <div 
                 key={category.id} 
-                ref={el => columnsRef.current[index] = el}
+                ref={(el) => { columnsRef.current[index] = el; }}
                 onMouseEnter={() => setHoveredCol(index)}
                 className={`flex flex-col transition-opacity duration-500 will-change-transform ${isDimmed ? 'opacity-30' : 'opacity-100'}`}
               >

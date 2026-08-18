@@ -91,13 +91,13 @@ export const ContactContainer: React.FC = () => {
               className="inline-flex items-center gap-4 md:gap-6 px-6 py-4 md:px-10 md:py-6 rounded-full bg-black text-white group hover:bg-black/90 transition-colors relative overflow-hidden"
               data-cursor-interact="true"
             >
-              <span className="font-display text-xl md:text-3xl transition-transform duration-300 group-hover:-translate-y-full absolute inset-0 flex items-center px-6 md:px-10">
+              <span className="font-display text-base sm:text-xl md:text-3xl transition-transform duration-300 group-hover:-translate-y-full absolute inset-0 flex items-center px-6 md:px-10">
                 {personalInfo.email}
               </span>
-              <span className="font-display text-xl md:text-3xl opacity-0">
+              <span className="font-display text-base sm:text-xl md:text-3xl opacity-0">
                 {personalInfo.email}
               </span>
-              <span className="font-display text-xl md:text-3xl transition-transform duration-300 translate-y-full group-hover:translate-y-0 absolute inset-0 flex items-center px-6 md:px-10 text-cyan-400">
+              <span className="font-display text-base sm:text-xl md:text-3xl transition-transform duration-300 translate-y-full group-hover:translate-y-0 absolute inset-0 flex items-center px-6 md:px-10 text-cyan-400">
                 {copied ? "Copied!" : "Click to copy"}
               </span>
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 z-10 relative">
@@ -115,14 +115,14 @@ export const ContactContainer: React.FC = () => {
 
       <div 
         ref={infoRef}
-        className="w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end mt-auto gap-8 md:gap-12 border-t border-black/10 pt-6 md:pt-8"
+        className="w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end mt-auto gap-6 md:gap-12 border-t border-black/10 pt-6 md:pt-8"
       >
-        <div className="flex flex-col gap-1 md:gap-2">
+        <div className="flex flex-col gap-1 md:gap-2 w-full md:w-auto">
           <p className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-black/40">Location</p>
           <p className="font-sans text-sm md:text-lg font-medium">Dhaka, Bangladesh</p>
         </div>
 
-        <div className="flex items-center gap-4 md:gap-6">
+        <div className="flex items-center justify-start md:justify-center gap-4 md:gap-6 w-full md:w-auto">
           <Magnetic strength={0.3}>
             <a 
               href={githubLink}
@@ -151,17 +151,19 @@ export const ContactContainer: React.FC = () => {
 
           <Magnetic strength={0.3}>
             <a 
-              href={`mailto:${personalInfo.email}`}
-              className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-black/10 flex items-center justify-center hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-colors duration-300"
-              aria-label="Email"
+              href="https://www.facebook.com/zahid.hasan.437885/"
+              target="_blank"
+              rel="noreferrer"
+              className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-black/10 flex items-center justify-center hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-colors duration-300"
+              aria-label="Facebook"
               data-cursor-interact="true"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="md:w-6 md:h-6"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="md:w-6 md:h-6"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
             </a>
           </Magnetic>
         </div>
 
-        <div className="flex flex-col items-end gap-1 md:gap-2">
+        <div className="flex flex-col items-start md:items-end gap-1 md:gap-2 w-full md:w-auto">
           <p className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-black/40">Local Time</p>
           <p className="font-sans text-sm md:text-lg font-medium tracking-tight">GMT+6</p>
         </div>

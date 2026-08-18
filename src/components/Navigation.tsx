@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { gsap } from '../motion/gsap';
 import { useGSAP } from '@gsap/react';
@@ -26,8 +26,8 @@ export const Navigation: React.FC = () => {
       ease: 'power3.out'
     }).progress(1);
 
-    gsap.registerPlugin(gsap.core.globals().ScrollTrigger);
-    const ScrollTrigger = gsap.core.globals().ScrollTrigger as any;
+    gsap.registerPlugin((gsap as any).core.globals().ScrollTrigger);
+    const ScrollTrigger = (gsap as any).core.globals().ScrollTrigger as any;
 
     ScrollTrigger.create({
       start: "top top",
@@ -96,7 +96,7 @@ export const Navigation: React.FC = () => {
         </div>
 
         {/* RIGHT / LINKS */}
-        <nav className="flex items-center gap-8">
+        <nav className="flex flex-wrap items-center gap-4 md:gap-8 mt-4 md:mt-0">
           
           <Magnetic strength={0.2}>
             <a 

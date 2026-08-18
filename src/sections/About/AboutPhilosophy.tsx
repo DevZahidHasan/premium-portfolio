@@ -7,7 +7,7 @@ import { Text } from '../../components/Text';
 export const AboutPhilosophy: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
   const wordsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const workTransitionRef = useRef<HTMLDivElement>(null);
+
   const labelRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -16,7 +16,7 @@ export const AboutPhilosophy: React.FC = () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    const ScrollTrigger = gsap.core.globals().ScrollTrigger as any;
+    const ScrollTrigger = (gsap as any).core.globals().ScrollTrigger as any;
 
     const totalDuration = philosophyData.length;
 
@@ -45,9 +45,9 @@ export const AboutPhilosophy: React.FC = () => {
         wordsRef.current.forEach((wordElement, index) => {
           if (!wordElement) return;
           
-          const isLastWord = index === philosophyData.length - 1;
-          const textEl = wordElement.querySelector('h2');
-          const statementEl = wordElement.querySelector('.phil-desc');
+          index === philosophyData.length - 1;
+          wordElement.querySelector('h2');
+          wordElement.querySelector('.phil-desc');
 
           if (index === 0) {
             tl.to(wordElement, {
@@ -99,7 +99,7 @@ export const AboutPhilosophy: React.FC = () => {
       {philosophyData.map((item, index) => (
         <div 
           key={item.id}
-          ref={el => wordsRef.current[index] = el}
+          ref={(el) => { wordsRef.current[index] = el; }}
           className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 will-change-transform transform-gpu"
           style={{ 
             opacity: index === 0 ? 1 : 0, 

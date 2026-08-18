@@ -1,8 +1,6 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { gsap } from '../../motion/gsap';
 import { useGSAP } from '@gsap/react';
-import { WorkHeader } from './WorkHeader';
 import { WorkGrid } from './WorkGrid';
 import { FloatingCursors } from './FloatingCursors';
 import { projects } from '../../data/projects';

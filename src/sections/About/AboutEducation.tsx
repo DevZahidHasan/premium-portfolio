@@ -15,7 +15,7 @@ export const AboutEducation: React.FC = () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    const ScrollTrigger = gsap.core.globals().ScrollTrigger as any;
+    const ScrollTrigger = (gsap as any).core.globals().ScrollTrigger as any;
 
     itemsRef.current.forEach((item) => {
       if (!item) return;
@@ -113,7 +113,7 @@ export const AboutEducation: React.FC = () => {
           {educationData.map((edu, index) => (
             <div 
               key={edu.id} 
-              ref={el => itemsRef.current[index] = el}
+              ref={(el) => { itemsRef.current[index] = el; }}
               className="flex flex-col gap-8 md:gap-12 will-change-transform transform-gpu w-full"
             >
               {/* Animated Horizontal Line */}

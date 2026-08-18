@@ -59,7 +59,7 @@ export const WorkGrid: React.FC = () => {
           return (
             <div 
               key={project.id}
-              ref={el => itemsRef.current[index] = el}
+              ref={(el) => { itemsRef.current[index] = el; }}
               className={clsx(
                 "flex flex-col group will-change-transform transform-gpu",
                 !isEven ? "md:mt-48" : ""

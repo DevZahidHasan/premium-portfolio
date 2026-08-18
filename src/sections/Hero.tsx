@@ -103,7 +103,7 @@ export const Hero: React.FC = () => {
       // ----------------------------------------------------
       // 3. SCROLL TRANSFORMATION (State 03) - Spatial Separation
       // ----------------------------------------------------
-      const ScrollTrigger = gsap.core.globals().ScrollTrigger as any;
+      const ScrollTrigger = (gsap as any).core.globals().ScrollTrigger as any;
       
       const scrollTl = gsap.timeline({
         scrollTrigger: {

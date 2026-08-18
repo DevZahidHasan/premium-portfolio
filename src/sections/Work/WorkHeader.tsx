@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { gsap } from '../../motion/gsap';
 import { useGSAP } from '@gsap/react';
-import { Text } from '../../components/Text';
 
 export const WorkHeader: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);

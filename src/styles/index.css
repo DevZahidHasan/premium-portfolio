@@ -22,8 +22,10 @@
     --grid-gap: 1.5rem;
   }
 
-  body {
+  html, body {
     @apply bg-background text-foreground font-body antialiased;
+    overflow-x: hidden;
+    width: 100%;
   }
   
   /* Only hide cursor if device has a fine pointer (mouse) */
@@ -45,17 +47,17 @@
 
 @layer utilities {
   .text-fluid-display {
-    font-size: clamp(4rem, 11vw, 11rem);
+    font-size: clamp(3rem, 12vw, 11rem);
     line-height: 0.9;
     letter-spacing: -0.02em;
   }
   .text-fluid-heading {
-    font-size: clamp(3rem, 7vw, 7rem);
+    font-size: clamp(2.5rem, 8vw, 7rem);
     line-height: 0.95;
     letter-spacing: -0.01em;
   }
   .text-fluid-body {
-    font-size: clamp(1rem, 1.3vw, 1.35rem);
+    font-size: clamp(0.9rem, 1.3vw, 1.35rem);
     line-height: 1.6;
   }
 

@@ -196,7 +196,7 @@ export const ProjectDetail: React.FC = () => {
         <div className="w-full">
           <h3 className="font-mono text-sm uppercase tracking-widest text-black/50 mb-12 border-b border-black/10 pb-4">More Work</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-            {moreWork.map((pw, i) => (
+            {moreWork.map((pw) => (
               <Link 
                 key={pw.id} 
                 to={`/project/${pw.id}`}

@@ -45,5 +45,5 @@ export const Magnetic: React.FC<MagneticProps> = ({ children, strength = 0.5 }) 
     };
   }, { scope: magneticRef });
 
-  return React.cloneElement(children, { ref: magneticRef });
+  return React.cloneElement(children as React.ReactElement<any>, { ref: magneticRef });
 };

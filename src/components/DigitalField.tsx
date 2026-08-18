@@ -56,8 +56,8 @@ export const DigitalField: React.FC = () => {
       const rect = svgRef.current?.getBoundingClientRect();
       if (!rect) return;
       
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
+      e.clientX - rect.left;
+      e.clientY - rect.top;
 
       nodeRefs.current.forEach((node, i) => {
         if (!node || !quickTos[i]) return;
@@ -127,7 +127,7 @@ export const DigitalField: React.FC = () => {
                 strokeWidth="0.5"
               />
               <circle
-                ref={el => nodeRefs.current[i] = el}
+                ref={(el) => { nodeRefs.current[i] = el; }}
                 cx={`${node.x}%`}
                 cy={`${node.y}%`}
                 r="1.5"

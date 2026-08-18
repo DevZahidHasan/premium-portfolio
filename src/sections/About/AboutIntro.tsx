@@ -19,7 +19,7 @@ export const AboutIntro: React.FC = () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    const ScrollTrigger = gsap.core.globals().ScrollTrigger as any;
+    const ScrollTrigger = (gsap as any).core.globals().ScrollTrigger as any;
 
     // 1. Entrance Animation (Triggered when scrolled into view)
     const tl = gsap.timeline({
@@ -148,7 +148,7 @@ export const AboutIntro: React.FC = () => {
             {aboutData.headline.map((line, i) => (
               <span 
                 key={i} 
-                ref={el => lineRefs.current[i] = el}
+                ref={(el) => { lineRefs.current[i] = el; }}
                 className="block will-change-transform transform-gpu"
               >
                 {line}

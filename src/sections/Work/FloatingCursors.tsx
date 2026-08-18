@@ -32,7 +32,7 @@ export const FloatingCursors: React.FC = () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    cursorRefs.current.forEach((cursor, index) => {
+    cursorRefs.current.forEach((cursor) => {
       if (!cursor) return;
 
       // Create a floating animation that loops randomly
@@ -66,7 +66,7 @@ export const FloatingCursors: React.FC = () => {
       {cursors.map((cursorData, index) => (
         <div
           key={cursorData.id}
-          ref={el => cursorRefs.current[index] = el}
+          ref={(el) => { cursorRefs.current[index] = el; }}
           className="absolute flex flex-col items-start drop-shadow-md will-change-transform transform-gpu"
           style={{
             left: cursorData.initialX,

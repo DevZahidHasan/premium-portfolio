@@ -14,7 +14,7 @@ export const AboutExperience: React.FC = () => {
     if (!containerRef.current || !leftColRef.current) return;
     
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const ScrollTrigger = gsap.core.globals().ScrollTrigger as any;
+    const ScrollTrigger = (gsap as any).core.globals().ScrollTrigger as any;
 
     if (!prefersReducedMotion) {
       // Pin the "03 / EXPERIENCE" title on desktop while the right side scrolls
@@ -32,7 +32,7 @@ export const AboutExperience: React.FC = () => {
         
         const borderEl = row.querySelector('.exp-border');
         const metaEl = row.querySelectorAll('.exp-meta');
-        const titleWrapper = row.querySelector('.exp-title-wrapper');
+        row.querySelector('.exp-title-wrapper');
         const titleEl = row.querySelector('.exp-title');
         const contentEl = row.querySelector('.exp-content');
         
@@ -109,7 +109,7 @@ export const AboutExperience: React.FC = () => {
           {experienceData.map((exp, index) => (
             <div 
               key={exp.id} 
-              ref={el => rowsRef.current[index] = el}
+              ref={(el) => { rowsRef.current[index] = el; }}
               className="relative py-12 md:py-24 group will-change-transform"
             >
               {/* Animated Top Border */}

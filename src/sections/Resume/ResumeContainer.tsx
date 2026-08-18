@@ -4,7 +4,7 @@ import { aboutData } from '../../data/about';
 import { skillsData } from '../../data/skills';
 import { educationData } from '../../data/education';
 import { experienceData } from '../../data/experience';
-import { Magnetic } from '../../components/Magnetic';
+
 
 export const ResumeContainer: React.FC = () => {
   const githubLink = personalInfo.socials.find(s => s.name.toLowerCase() === 'github')?.url || '#';
@@ -21,7 +21,7 @@ export const ResumeContainer: React.FC = () => {
             href={githubLink} 
             target="_blank" 
             rel="noreferrer" 
-            className="text-2xl md:text-3xl font-medium text-black/90 hover:text-black/50 transition-colors"
+            className="text-xl sm:text-2xl md:text-3xl font-medium text-black/90 hover:text-black/50 transition-colors break-words"
             data-cursor-interact="true"
           >
             github.com/{githubHandle}

@@ -89,7 +89,7 @@ export const FloatingSnippets: React.FC = () => {
       {snippetData.map((data, i) => (
         <div
           key={data.id}
-          ref={el => snippetsRef.current[i] = el}
+          ref={(el) => { snippetsRef.current[i] = el; }}
           className="absolute font-mono text-[9px] md:text-[11px] tracking-widest whitespace-pre will-change-transform transform-gpu flex flex-row"
           style={{ 
             top: `${data.top}%`, 
