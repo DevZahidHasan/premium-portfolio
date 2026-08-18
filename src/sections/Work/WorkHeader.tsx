@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { gsap } from '../../motion/gsap';
+
 import { useGSAP } from '@gsap/react';
 
 export const WorkHeader: React.FC = () => {

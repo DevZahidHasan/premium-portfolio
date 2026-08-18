@@ -19,7 +19,7 @@ export const AboutIntro: React.FC = () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    const ScrollTrigger = (gsap as any).core.globals().ScrollTrigger as any;
+
 
     // 1. Entrance Animation (Triggered when scrolled into view)
     const tl = gsap.timeline({

@@ -15,7 +15,7 @@ export const AboutEducation: React.FC = () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    const ScrollTrigger = (gsap as any).core.globals().ScrollTrigger as any;
+
 
     itemsRef.current.forEach((item) => {
       if (!item) return;

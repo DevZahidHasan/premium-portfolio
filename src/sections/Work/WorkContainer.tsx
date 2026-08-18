@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { WorkGrid } from './WorkGrid';
 import { FloatingCursors } from './FloatingCursors';
-import { projects } from '../../data/projects';
+
 
 export const WorkContainer: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
