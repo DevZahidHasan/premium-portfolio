@@ -124,17 +124,15 @@ export const Navigation: React.FC = () => {
           </Magnetic>
 
           <Magnetic strength={0.2}>
-            <a 
-              href="/resume.pdf" 
-              target="_blank"
-              rel="noreferrer"
+            <Link 
+              to="/resume"
               className="group relative flex items-center justify-center p-2 -m-2"
             >
               <Text as="span" variant="label" className="text-xs group-hover:text-accent transition-colors">
                 RESUME
               </Text>
               <span className="absolute bottom-1 left-2 right-2 h-[1px] bg-accent origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-smooth" />
-            </a>
+            </Link>
           </Magnetic>
 
         </nav>

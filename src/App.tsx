@@ -9,6 +9,7 @@ import { PreloaderProvider } from './hooks/usePreloader';
 import { Home } from './pages/Home';
 import { ProjectDetail } from './pages/ProjectDetail';
 import { ContactContainer } from './sections/Contact/ContactContainer';
+import { Resume } from './pages/Resume';
 
 const App: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: React.FC = () => {
               <Route path="/" element={<Home />} />
               <Route path="/project/:id" element={<ProjectDetail />} />
               <Route path="/contact" element={<ContactContainer />} />
+              <Route path="/resume" element={<Resume />} />
             </Routes>
           </Layout>
         </LenisProvider>
