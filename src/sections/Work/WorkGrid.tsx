@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -84,7 +84,7 @@ export const WorkGrid: React.FC = () => {
       {/* "Selected Work" Header */}
       <div ref={headerRef} className="w-full max-w-7xl mx-auto flex justify-center mb-32 relative z-20 h-32 items-center">
         <h2 className="font-display font-bold text-5xl md:text-7xl text-black flex gap-4 md:gap-8">
-          {headlineText.split(' ').map((word, wordIndex, arr) => (
+          {headlineText.split(' ').map((word, wordIndex) => (
             <React.Fragment key={wordIndex}>
               <span className="inline-block whitespace-nowrap">
                 {word.split('').map((char, charIndex) => (

@@ -14,7 +14,7 @@ export const AboutExperience: React.FC = () => {
     if (!containerRef.current) return;
     
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const ScrollTrigger = (gsap as any).core.globals().ScrollTrigger as any;
+
 
     if (!prefersReducedMotion) {
       // Premium Entrance Choreography for each row
