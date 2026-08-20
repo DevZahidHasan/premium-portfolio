@@ -4,6 +4,9 @@ import { useGSAP } from '@gsap/react';
 import { personalInfo } from '../../data/projects';
 import { Magnetic } from '../../components/Magnetic';
 import { FloatingCursors } from '../Work/FloatingCursors';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const ContactContainer: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -41,6 +44,8 @@ export const ContactContainer: React.FC = () => {
       ease: 'power3.out',
     }, "-=0.8");
 
+
+
   }, []);
 
   // Helper to find specific social link
@@ -59,6 +64,7 @@ export const ContactContainer: React.FC = () => {
     <section 
       ref={containerRef}
       className="relative w-full h-[100dvh] bg-[#F8F9FA] text-black flex flex-col justify-between pt-32 pb-8 px-page-gutter z-20 overflow-hidden"
+      data-theme="light"
     >
       <FloatingCursors />
       

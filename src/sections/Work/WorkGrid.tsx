@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import { projects } from '../../data/projects';
 import clsx from 'clsx';
 
@@ -10,8 +11,10 @@ gsap.registerPlugin(ScrollTrigger);
 export const WorkGrid: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const charsRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const headerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     if (!containerRef.current || itemsRef.current.length === 0) return;
 
     itemsRef.current.forEach((item) => {
@@ -36,22 +39,70 @@ export const WorkGrid: React.FC = () => {
       );
     });
 
-    return () => {
-      ScrollTrigger.getAll().forEach(st => st.kill());
-    };
+    // Scattered Character Animation for "Selected Work"
+    if (headerRef.current && charsRef.current.length > 0) {
+      charsRef.current.forEach((char) => {
+        if (!char) return;
+        const rx = (Math.random() - 0.5) * 800; 
+        const ry = (Math.random() - 0.5) * 800; 
+        const rot = (Math.random() - 0.5) * 180;
+        
+        gsap.fromTo(char, 
+          { 
+            x: rx, 
+            y: ry, 
+            rotationZ: rot,
+            opacity: 0,
+          },
+          {
+            x: 0,
+            y: 0,
+            rotationZ: 0,
+            opacity: 1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: headerRef.current, // Use the header container as the trigger
+              start: 'top 85%', // Start converging when it enters viewport
+              end: 'center center', // Finish converging when centered
+              scrub: 1, 
+            }
+          }
+        );
+      });
+    }
+
   }, []);
+
+  // Clean up chars array on each render to prevent duplicates
+  charsRef.current = [];
+
+  const headlineText = "Selected Work";
 
   return (
     <div ref={containerRef} className="w-full px-page-gutter pb-32 md:pb-64 relative z-10 flex flex-col items-center">
       
       {/* "Selected Work" Header */}
-      <div className="w-full max-w-7xl mx-auto flex justify-center mb-32">
-        <h2 className="font-display font-bold text-5xl md:text-7xl text-black">
-          Selected Work
+      <div ref={headerRef} className="w-full max-w-7xl mx-auto flex justify-center mb-32 relative z-20 h-32 items-center">
+        <h2 className="font-display font-bold text-5xl md:text-7xl text-black flex gap-4 md:gap-8">
+          {headlineText.split(' ').map((word, wordIndex, arr) => (
+            <React.Fragment key={wordIndex}>
+              <span className="inline-block whitespace-nowrap">
+                {word.split('').map((char, charIndex) => (
+                  <span 
+                    key={charIndex}
+                    ref={(el) => { if (el) charsRef.current.push(el); }}
+                    className="inline-block will-change-transform transform-gpu"
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+            </React.Fragment>
+          ))}
         </h2>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-24">
+      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-24 relative z-10">
         {projects.map((project, index) => {
           // Asymmetric grid: even items left, odd items right and pushed down
           const isEven = index % 2 === 0;

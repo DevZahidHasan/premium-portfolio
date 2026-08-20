@@ -3,17 +3,21 @@ import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { WorkGrid } from './WorkGrid';
 import { FloatingCursors } from './FloatingCursors';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+gsap.registerPlugin(ScrollTrigger);
 
 export const WorkContainer: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const backgroundRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!containerRef.current || !backgroundRef.current) return;
+    if (!containerRef.current) return;
     
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
+
+
 
   }, []);
 
@@ -22,6 +26,7 @@ export const WorkContainer: React.FC = () => {
       id="work"
       ref={containerRef}
       className="relative w-full bg-[#F8F9FA] z-10"
+      data-theme="light"
     >
       <FloatingCursors />
       

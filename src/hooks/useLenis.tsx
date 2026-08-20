@@ -12,7 +12,7 @@ const LenisContext = createContext<LenisContextType>({ lenis: null });
 export const useLenis = () => useContext(LenisContext);
 
 export const LenisProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const lenisRef = useRef<Lenis | null>(null);
+  const [lenisInstance, setLenisInstance] = React.useState<Lenis | null>(null);
 
   useEffect(() => {
     // Only initialize if the user hasn't requested reduced motion
@@ -32,7 +32,7 @@ export const LenisProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       touchMultiplier: 2,
     });
 
-    lenisRef.current = lenis;
+    setLenisInstance(lenis);
 
     // Sync Lenis scroll with ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
@@ -51,7 +51,7 @@ export const LenisProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   return (
-    <LenisContext.Provider value={{ lenis: lenisRef.current }}>
+    <LenisContext.Provider value={{ lenis: lenisInstance }}>
       {children}
     </LenisContext.Provider>
   );
