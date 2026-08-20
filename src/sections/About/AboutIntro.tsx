@@ -10,18 +10,16 @@ export const AboutIntro: React.FC = () => {
   const labelRef = useRef<HTMLDivElement>(null);
   const bioRef = useRef<HTMLDivElement>(null);
   const fieldRef = useRef<HTMLDivElement>(null);
-  const lineRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const charsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const headlineRef = useRef<HTMLHeadingElement>(null);
 
   useGSAP(() => {
-    if (!containerRef.current || lineRefs.current.length === 0) return;
+    if (!containerRef.current || charsRef.current.length === 0) return;
     
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-
-
-    // 1. Entrance Animation (Triggered when scrolled into view)
+    // 1. Entrance Fade for Left/Right/BG (Triggered when scrolled into view)
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
@@ -41,80 +39,48 @@ export const AboutIntro: React.FC = () => {
       "-=1.5"
     );
 
-    // Fade up the lines
-    tl.fromTo(lineRefs.current, 
-      { opacity: 0, y: 40 }, 
-      { opacity: 1, y: 0, stagger: 0.1, ease: 'power3.out', duration: 1.5 },
-      "-=1.2"
-    );
-
     tl.fromTo(bioRef.current, 
       { opacity: 0, y: 20 }, 
       { opacity: 1, y: 0, ease: 'power2.out', duration: 1 },
-      "-=1.0"
+      "-=1.5"
     );
 
-    // 2. Spatial Separation (Hero Style) Exit Scrub - Horizontal direction
-    const scrollTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top top', 
-        end: 'bottom top',
-        scrub: true,
-      }
-    });
-
-    // Animate each line in opposite horizontal directions, like Zahid Hasan but purely X-axis
-    lineRefs.current.forEach((line, i) => {
-      if (!line) return;
-      const isEven = i % 2 === 0;
-      scrollTl.to(line, {
-        xPercent: isEven ? -40 : 40,
-        opacity: 0,
-        ease: 'none'
-      }, 0);
-    });
-
-    gsap.to(fieldRef.current, {
-      y: 100,
-      opacity: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      }
-    });
-
-    // Fix conflict: animate the first child instead of the ref itself, and only fade opacity
-    if (labelRef.current?.firstElementChild) {
-      gsap.to(labelRef.current.firstElementChild, {
-        opacity: 0,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
+    // 2. Scattered Alphabet scrub animation (Emilian style)
+    charsRef.current.forEach((char) => {
+      if (!char) return;
+      
+      // Random starting positions and rotations
+      const rx = (Math.random() - 0.5) * 800; 
+      const ry = (Math.random() - 0.5) * 800; 
+      const rot = (Math.random() - 0.5) * 180;
+      
+      gsap.fromTo(char, 
+        { 
+          x: rx, 
+          y: ry, 
+          rotationZ: rot,
+          opacity: 0,
+        },
+        {
+          x: 0,
+          y: 0,
+          rotationZ: 0,
+          opacity: 1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 90%', // Start converging when it enters viewport
+            end: 'center center', // Finish converging when centered
+            scrub: 1, 
+          }
         }
-      });
-    }
-
-    if (bioRef.current?.firstElementChild) {
-      gsap.to(bioRef.current.firstElementChild, {
-        opacity: 0,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        }
-      });
-    }
+      );
+    });
 
   }, []);
+
+  // Clear refs before each render to prevent duplicates on re-renders
+  charsRef.current = [];
 
   return (
     <section 
@@ -138,20 +104,31 @@ export const AboutIntro: React.FC = () => {
           </div>
         </div>
 
-        {/* CENTER: Massive Separating Statement (7 cols) */}
+        {/* CENTER: Massive Typographic Statement (7 cols) */}
         <div className="md:col-span-7 lg:col-span-7">
           <h2 
             ref={headlineRef}
-            className="font-display font-bold uppercase tracking-tight text-foreground flex flex-col gap-2"
+            className="font-display font-bold uppercase tracking-tight text-foreground flex flex-col gap-1 md:gap-2"
             style={{ fontSize: 'clamp(3rem, 7vw, 7rem)', lineHeight: 1 }} 
           >
-            {aboutData.headline.map((line, i) => (
-              <span 
-                key={i} 
-                ref={(el) => { lineRefs.current[i] = el; }}
-                className="block will-change-transform transform-gpu"
-              >
-                {line}
+            {aboutData.headline.map((line, lineIndex) => (
+              <span key={lineIndex} className="block relative">
+                {line.split(' ').map((word, wordIndex, arr) => (
+                  <React.Fragment key={wordIndex}>
+                    <span className="inline-block whitespace-nowrap">
+                      {word.split('').map((char, charIndex) => (
+                        <span 
+                          key={charIndex}
+                          ref={(el) => { if (el) charsRef.current.push(el); }}
+                          className="inline-block will-change-transform transform-gpu"
+                        >
+                          {char}
+                        </span>
+                      ))}
+                    </span>
+                    {wordIndex < arr.length - 1 && ' '}
+                  </React.Fragment>
+                ))}
               </span>
             ))}
           </h2>

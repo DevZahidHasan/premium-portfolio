@@ -57,43 +57,72 @@ export const AboutIdentity: React.FC = () => {
       gsap.set(containerRef.current, { opacity: 1 });
     }
 
-    // Hover interactions (Unconditional so it works on touch/mobile and regardless of motion prefs)
-    itemsRef.current.forEach((item, index) => {
-      if (!item) return;
+    // Hover interactions (Desktop only via matchMedia)
+    let mm = gsap.matchMedia();
+    
+    mm.add("(min-width: 768px)", () => {
+      itemsRef.current.forEach((item, index) => {
+        if (!item) return;
+        const titleEl = item.querySelector('.identity-title-reveal');
 
-      const onMouseEnter = () => {
-        itemsRef.current.forEach((el, i) => {
-          if (el && i !== index) {
-            gsap.to(el, { opacity: 0.2, duration: prefersReducedMotion ? 0 : 0.5, ease: 'power2.out' });
+        const onMouseEnter = () => {
+          itemsRef.current.forEach((el, i) => {
+            if (el && i !== index) {
+              gsap.to(el, { opacity: 0.2, duration: prefersReducedMotion ? 0 : 0.5, ease: 'power2.out' });
+            }
+          });
+          
+          gsap.to(item, { opacity: 1, duration: prefersReducedMotion ? 0 : 0.5, ease: 'power2.out' });
+          gsap.to(item.querySelector('.identity-content'), { 
+            height: 'auto', 
+            opacity: 1, 
+            y: 0, 
+            duration: prefersReducedMotion ? 0 : 0.5, 
+            ease: 'power2.out' 
+          });
+        };
+
+        const onMouseLeave = () => {
+          itemsRef.current.forEach((el) => {
+            if (el) gsap.to(el, { opacity: 1, duration: prefersReducedMotion ? 0 : 0.5, ease: 'power2.out' });
+          });
+
+          gsap.to(item.querySelector('.identity-content'), { 
+            height: 0, 
+            opacity: 0, 
+            y: -10, 
+            duration: prefersReducedMotion ? 0 : 0.4, 
+            ease: 'power2.inOut' 
+          });
+        };
+
+        if (titleEl) {
+          titleEl.addEventListener('mouseenter', onMouseEnter);
+          titleEl.addEventListener('mouseleave', onMouseLeave);
+        }
+
+        // Store the listeners on the element for cleanup
+        (titleEl as any)._onMouseEnter = onMouseEnter;
+        (titleEl as any)._onMouseLeave = onMouseLeave;
+      });
+      
+      // Return cleanup function for matchMedia context
+      return () => {
+        itemsRef.current.forEach((item) => {
+          if (!item) return;
+          const titleEl = item.querySelector('.identity-title-reveal');
+          if (titleEl && (titleEl as any)._onMouseEnter) {
+            titleEl.removeEventListener('mouseenter', (titleEl as any)._onMouseEnter);
+            titleEl.removeEventListener('mouseleave', (titleEl as any)._onMouseLeave);
           }
         });
-        
-        gsap.to(item, { opacity: 1, duration: prefersReducedMotion ? 0 : 0.5, ease: 'power2.out' });
-        gsap.to(item.querySelector('.identity-content'), { 
-          height: 'auto', 
-          opacity: 1, 
-          y: 0, 
-          duration: prefersReducedMotion ? 0 : 0.5, 
-          ease: 'power2.out' 
-        });
       };
+    });
 
-      const onMouseLeave = () => {
-        itemsRef.current.forEach((el) => {
-          if (el) gsap.to(el, { opacity: 1, duration: prefersReducedMotion ? 0 : 0.5, ease: 'power2.out' });
-        });
-
-        gsap.to(item.querySelector('.identity-content'), { 
-          height: 0, 
-          opacity: 0, 
-          y: -10, 
-          duration: prefersReducedMotion ? 0 : 0.4, 
-          ease: 'power2.inOut' 
-        });
-      };
-
-      item.addEventListener('mouseenter', onMouseEnter);
-      item.addEventListener('mouseleave', onMouseLeave);
+    mm.add("(max-width: 767px)", () => {
+      // Mobile - ensure everything is visible and spacing is tight
+      gsap.set('.identity-content', { clearProps: 'all' });
+      gsap.set('.identity-title-reveal h3', { clearProps: 'all' });
     });
 
   }, []);
@@ -133,7 +162,7 @@ export const AboutIdentity: React.FC = () => {
                   </div>
                 </div>
                 
-                <div className="identity-content overflow-hidden opacity-0 h-0 -translate-y-2 flex-1 origin-top md:pb-2">
+                <div className="identity-content overflow-hidden md:opacity-0 md:h-0 md:-translate-y-2 flex-1 origin-top md:pb-2">
                   <div className="flex flex-col gap-4 max-w-lg">
                     <p className="font-mono text-sm md:text-base text-foreground/90 leading-relaxed">
                       {discipline.description}

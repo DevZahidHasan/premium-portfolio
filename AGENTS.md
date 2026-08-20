@@ -1,5 +1,12 @@
 # AGENTS.md
 
+# UI & STYLING RULES: STRICT ENFORCEMENT
+You are strictly forbidden from utilizing generic LLM design patterns, default boilerplate layouts, or assumed color palettes. Every component must look like a cohesive part of a single, premium application.
+
+- **Mandatory Reading:** Before generating or modifying ANY frontend component, you MUST read `DESIGN_SYSTEM.md` and `tailwind.config.js`. 
+- **No Hallucinated Classes:** If a spacing scale, color hex, or typography class is not explicitly defined in the design system, DO NOT use it. 
+- **The "Fail-Safe":** If the prompt requires a UI element that is not covered by the `DESIGN_SYSTEM.md`, do not invent a generic design. Stop and ask me how it should be styled.
+
 # ZAHID HASAN — PREMIUM SOFTWARE ENGINEER PORTFOLIO
 
 ## 0. PROJECT MISSION
