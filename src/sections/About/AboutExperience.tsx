@@ -128,7 +128,7 @@ export const AboutExperience: React.FC = () => {
               <div className="w-full md:w-5/12 flex flex-col items-start relative h-full">
                 <div className="md:sticky md:top-32 flex flex-col w-full pb-8 md:pb-0">
                   <div className="exp-title-wrapper pb-4">
-                    <h4 className="font-display font-bold text-6xl md:text-[6vw] lg:text-[7vw] uppercase tracking-tighter text-foreground leading-[0.9] will-change-transform transform-gpu origin-top">
+                    <h4 className="font-display font-bold text-[12vw] md:text-[6vw] lg:text-[7vw] uppercase tracking-tighter text-foreground leading-[0.9] will-change-transform transform-gpu origin-top">
                       {exp.company.split(' ').map((word, wordIndex, arr) => (
                         <React.Fragment key={wordIndex}>
                           <span className="inline-block whitespace-nowrap">

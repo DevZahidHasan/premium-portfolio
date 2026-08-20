@@ -91,7 +91,7 @@ export const AboutPhilosophy: React.FC = () => {
         ref={labelRef} 
         className="absolute top-24 left-page-gutter z-20 will-change-transform transform-gpu"
       >
-        <Text as="span" variant="mono" className="text-muted text-[11px] uppercase tracking-widest block">
+        <Text as="span" variant="mono" className="text-foreground font-bold text-[11px] uppercase tracking-widest block">
           06 / How I Think
         </Text>
       </div>

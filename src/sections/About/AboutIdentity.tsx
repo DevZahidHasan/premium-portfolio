@@ -61,7 +61,7 @@ export const AboutIdentity: React.FC = () => {
         
         {/* LEFT: Label (2 cols) */}
         <div className="md:col-span-2 hidden md:block">
-          <Text as="span" variant="mono" className="text-muted text-[11px] uppercase tracking-widest block pt-8">
+          <Text as="span" variant="mono" className="text-foreground font-bold text-[11px] uppercase tracking-widest block pt-8">
             02 / Engineering
           </Text>
         </div>
@@ -88,7 +88,7 @@ export const AboutIdentity: React.FC = () => {
                       hoveredIndex === i ? "translate-x-4 md:translate-x-8" : ""
                     )}
                     style={{
-                      fontSize: 'clamp(3rem, 6.5vw, 7rem)',
+                      fontSize: 'clamp(2rem, 12vw, 7rem)',
                       lineHeight: 1,
                       WebkitTextStroke: hoveredIndex === i ? '0px transparent' : '1px rgba(255,255,255,0.3)',
                       color: hoveredIndex === i ? '#ffffff' : 'transparent',

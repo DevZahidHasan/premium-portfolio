@@ -123,7 +123,7 @@ export const AboutEducation: React.FC = () => {
         {/* TITLE: Spans full width now but aligns left */}
         <div className="md:col-span-12 mb-8 md:mb-16">
           <div ref={titleRef}>
-            <Text as="span" variant="mono" className="text-muted text-[11px] uppercase tracking-widest block">
+            <Text as="span" variant="mono" className="text-foreground font-bold text-[11px] uppercase tracking-widest block">
               05 / Foundation
             </Text>
           </div>
@@ -144,7 +144,7 @@ export const AboutEducation: React.FC = () => {
                 
                 {/* Massive Institution Name without overflow-hidden so characters can scatter */}
                 <div className="edu-inst-wrapper flex-1 pb-4 md:pb-8 will-change-transform transform-gpu">
-                  <h4 className="font-display font-bold text-5xl md:text-[6vw] lg:text-[7vw] uppercase tracking-tighter text-foreground will-change-transform transform-gpu leading-[0.95]">
+                  <h4 className="font-display font-bold text-[10vw] md:text-[6vw] lg:text-[7vw] uppercase tracking-tighter text-foreground will-change-transform transform-gpu leading-[0.95]">
                     {edu.institution.split(' ').map((word, wordIndex, arr) => (
                       <React.Fragment key={wordIndex}>
                         <span className="inline-block whitespace-nowrap">

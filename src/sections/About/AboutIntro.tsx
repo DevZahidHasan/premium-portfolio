@@ -98,7 +98,7 @@ export const AboutIntro: React.FC = () => {
         {/* LEFT: Label (2 cols) */}
         <div className="md:col-span-2 hidden md:block" ref={labelRef}>
           <div className="will-change-transform">
-            <Text as="span" variant="mono" className="text-muted text-[11px] uppercase tracking-widest block pt-3">
+            <Text as="span" variant="mono" className="text-foreground font-bold text-[11px] uppercase tracking-widest block pt-3">
               {aboutData.eyebrow}
             </Text>
           </div>
