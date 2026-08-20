@@ -26,33 +26,29 @@ export const Navigation: React.FC = () => {
       ease: 'power3.out'
     }).progress(1);
 
-    gsap.registerPlugin((gsap as any).core.globals().ScrollTrigger);
-    const ScrollTrigger = (gsap as any).core.globals().ScrollTrigger as any;
+    let lastScrollY = window.scrollY;
 
-    ScrollTrigger.create({
-      start: "top top",
-      end: "max",
-      onUpdate: (self: any) => {
-        if (self.scrollY > 50 !== isScrolled) {
-          setIsScrolled(self.scrollY > 50);
-        }
-
-        if (self.direction === 1 && self.scrollY > 100) {
-          showAnim.reverse();
-        } else {
-          showAnim.play();
-        }
-      }
-    });
-
-    // Robust scroll-based theme switching
+    // Robust scroll-based theme & visibility switching
     const handleScrollTheme = () => {
+      const currentScrollY = window.scrollY;
+      
+      // 1. Update isScrolled state (React batches identical updates, so this is safe)
+      setIsScrolled(currentScrollY > 50);
+
+      // 2. Hide/Show logic
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        showAnim.reverse(); // Scrolling down, hide
+      } else {
+        showAnim.play(); // Scrolling up, show
+      }
+      lastScrollY = currentScrollY;
+
+      // 3. Theme tracking based on intersecting sections
       let isOverLight = false;
       const lightSections = document.querySelectorAll('[data-theme="light"]');
       
       lightSections.forEach((section) => {
         const rect = section.getBoundingClientRect();
-        // The navbar is roughly 50px tall. We check if the section overlaps the navbar's space.
         if (rect.top <= 60 && rect.bottom >= 60) {
           isOverLight = true;
         }
@@ -100,22 +96,42 @@ export const Navigation: React.FC = () => {
     }
   };
 
+  const bgClass = !isScrolled 
+    ? "bg-transparent" 
+    : (navTheme === 'light' ? "bg-white shadow-sm" : "bg-black");
+    
+  const textClass = !isScrolled
+    ? (navTheme === 'light' ? "text-white" : "text-black")
+    : (navTheme === 'light' ? "text-black" : "text-white");
+
+  const textMutedClass = !isScrolled
+    ? (navTheme === 'light' ? "text-white/60" : "text-black/60")
+    : (navTheme === 'light' ? "text-black/60" : "text-white/60");
+
+  const hoverTextClass = !isScrolled
+    ? (navTheme === 'light' ? "group-hover:text-white/70" : "group-hover:text-black/70")
+    : (navTheme === 'light' ? "group-hover:text-black/70" : "group-hover:text-white/70");
+
+  const underlineClass = !isScrolled
+    ? (navTheme === 'light' ? "bg-white" : "bg-black")
+    : (navTheme === 'light' ? "bg-black" : "bg-white");
+
   return (
     <header 
       ref={navRef}
       className={cn(
         "fixed top-0 left-0 w-full z-50 py-3 md:py-4 px-page-gutter transition-colors duration-500",
-        navTheme === 'light' ? "bg-white text-black shadow-sm" : "bg-black text-white"
+        bgClass
       )}
     >
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-0">
         
         {/* LEFT / ASYMMETRIC IDENTITY */}
         <div className="flex flex-col cursor-pointer" onClick={() => navigate('/')}>
-          <Text as="h1" variant="label" className={cn("font-bold transition-colors duration-500", navTheme === 'light' ? "text-black" : "text-white")}>
+          <Text as="h1" variant="label" className={cn("font-bold transition-colors duration-500", textClass)}>
             ZAHID HASAN
           </Text>
-          <Text as="span" variant="mono" className={cn("text-[10px] hidden md:block mt-1 transition-colors duration-500", navTheme === 'light' ? "text-black/60" : "text-white/60")}>
+          <Text as="span" variant="mono" className={cn("text-[10px] hidden md:block mt-1 transition-colors duration-500", textMutedClass)}>
             SOFTWARE ENGINEER // BASED IN BD
           </Text>
         </div>
@@ -129,10 +145,10 @@ export const Navigation: React.FC = () => {
               onClick={(e) => handleHashLink(e, '#work')}
               className="group relative flex items-center justify-center p-2 -m-2"
             >
-              <Text as="span" variant="label" className={cn("text-xs transition-colors duration-500", navTheme === 'light' ? "text-black group-hover:text-black/70" : "text-white group-hover:text-white/70")}>
+              <Text as="span" variant="label" className={cn("text-xs transition-colors duration-500", textClass, hoverTextClass)}>
                 WORK
               </Text>
-              <span className={cn("absolute bottom-1 left-2 right-2 h-[1px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-smooth", navTheme === 'light' ? "bg-black" : "bg-white")} />
+              <span className={cn("absolute bottom-1 left-2 right-2 h-[1px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-smooth", underlineClass)} />
             </a>
           </Magnetic>
 
@@ -141,10 +157,10 @@ export const Navigation: React.FC = () => {
               to="/contact"
               className="group relative flex items-center justify-center p-2 -m-2"
             >
-              <Text as="span" variant="label" className={cn("text-xs transition-colors duration-500", navTheme === 'light' ? "text-black group-hover:text-black/70" : "text-white group-hover:text-white/70")}>
+              <Text as="span" variant="label" className={cn("text-xs transition-colors duration-500", textClass, hoverTextClass)}>
                 CONTACT
               </Text>
-              <span className={cn("absolute bottom-1 left-2 right-2 h-[1px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-smooth", navTheme === 'light' ? "bg-black" : "bg-white")} />
+              <span className={cn("absolute bottom-1 left-2 right-2 h-[1px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-smooth", underlineClass)} />
             </Link>
           </Magnetic>
 
@@ -153,10 +169,10 @@ export const Navigation: React.FC = () => {
               to="/resume"
               className="group relative flex items-center justify-center p-2 -m-2"
             >
-              <Text as="span" variant="label" className={cn("text-xs transition-colors duration-500", navTheme === 'light' ? "text-black group-hover:text-black/70" : "text-white group-hover:text-white/70")}>
+              <Text as="span" variant="label" className={cn("text-xs transition-colors duration-500", textClass, hoverTextClass)}>
                 RESUME
               </Text>
-              <span className={cn("absolute bottom-1 left-2 right-2 h-[1px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-smooth", navTheme === 'light' ? "bg-black" : "bg-white")} />
+              <span className={cn("absolute bottom-1 left-2 right-2 h-[1px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-smooth", underlineClass)} />
             </Link>
           </Magnetic>
 

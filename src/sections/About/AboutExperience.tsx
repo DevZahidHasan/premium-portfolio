@@ -7,25 +7,15 @@ import { experienceData } from '../../data/experience';
 
 export const AboutExperience: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const leftColRef = useRef<HTMLDivElement>(null);
   const rowsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(() => {
-    if (!containerRef.current || !leftColRef.current) return;
+    if (!containerRef.current) return;
     
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const ScrollTrigger = (gsap as any).core.globals().ScrollTrigger as any;
 
     if (!prefersReducedMotion) {
-      // Pin the "03 / EXPERIENCE" title on desktop while the right side scrolls
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: 'top top+=120',
-        end: 'bottom bottom',
-        pin: leftColRef.current,
-        pinSpacing: false,
-      });
-
       // Premium Entrance Choreography for each row
       rowsRef.current.forEach((row) => {
         if (!row) return;
@@ -93,96 +83,99 @@ export const AboutExperience: React.FC = () => {
     >
       <FloatingSnippets />
       
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-grid-gap relative z-10">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-grid-gap relative z-10 w-full">
         
-        {/* LEFT COLUMN: Pinned Title */}
-        <div className="md:col-span-3">
-          <div ref={leftColRef} className="pt-2 pb-8 relative z-50">
-            <Text as="span" variant="mono" className="text-muted text-[11px] uppercase tracking-widest block">
-              03 / Experience
-            </Text>
-          </div>
+        {/* TITLE: Top spanning label */}
+        <div className="md:col-span-12 mb-16 md:mb-32">
+          <Text as="span" variant="mono" className="text-muted text-[11px] uppercase tracking-widest block">
+            03 / Experience
+          </Text>
         </div>
 
-        {/* RIGHT COLUMN: Scrolling Timeline */}
-        <div className="md:col-span-9 flex flex-col">
+        {/* EXPERIENCES LIST */}
+        <div className="md:col-span-12 flex flex-col gap-32 md:gap-64 w-full">
           {experienceData.map((exp, index) => (
             <div 
               key={exp.id} 
               ref={(el) => { rowsRef.current[index] = el; }}
-              className="relative py-12 md:py-24 group will-change-transform"
+              className="flex flex-col md:flex-row items-start justify-between gap-12 md:gap-24 w-full group relative"
             >
-              {/* Animated Top Border */}
-              <div className="exp-border absolute top-0 left-0 w-full h-[1px] bg-white/10" />
-
-              <div className="grid grid-cols-1 lg:grid-cols-9 gap-8 lg:gap-12">
-                
-                {/* Meta Column (Year & Role) */}
-                <div className="lg:col-span-3 flex flex-col gap-2 pt-2">
-                  <Text as="span" variant="mono" className="exp-meta text-muted text-[11px] uppercase tracking-widest block opacity-70">
-                    {exp.period}
-                  </Text>
-                  <Text as="span" variant="mono" className="exp-meta text-foreground text-xs md:text-sm uppercase tracking-wider block">
-                    {exp.role}
-                  </Text>
-                  {exp.location && (
-                    <Text as="span" variant="mono" className="exp-meta text-muted/50 text-[10px] uppercase tracking-widest mt-1 block">
-                      {exp.location}
-                    </Text>
-                  )}
-                </div>
-
-                {/* Content Column (Company, Description, Tech) */}
-                <div className="lg:col-span-6 flex flex-col">
-                  <div className="exp-title-wrapper overflow-hidden pb-4 -mb-4">
-                    <h4 
-                      className="exp-title font-display font-bold uppercase tracking-tight text-foreground transition-transform duration-500 group-hover:translate-x-2 will-change-transform transform-gpu origin-top"
-                      style={{ fontSize: 'clamp(3rem, 6vw, 6rem)', lineHeight: 0.9 }}
-                    >
+              
+              {/* LEFT SIDE: Sticky Company Name & Tech Stack */}
+              <div className="w-full md:w-5/12 flex flex-col items-start relative h-full">
+                <div className="md:sticky md:top-32 flex flex-col w-full pb-8 md:pb-0">
+                  <div className="exp-title-wrapper overflow-hidden pb-4">
+                    <h4 className="exp-title font-display font-bold text-6xl md:text-[6vw] lg:text-[7vw] uppercase tracking-tighter text-foreground leading-[0.9] will-change-transform transform-gpu origin-top">
                       {exp.company}
                     </h4>
                   </div>
                   
-                  <div className="exp-content flex flex-col mt-8 md:mt-12">
-                    <p className="font-mono text-sm md:text-base text-foreground/80 mb-10 max-w-2xl leading-relaxed">
-                      {exp.description}
-                    </p>
+                  {/* Technologies */}
+                  {exp.technologies && exp.technologies.length > 0 && (
+                    <div className="exp-content mt-8 md:mt-12 flex flex-wrap gap-2">
+                      {exp.technologies.map((tech, i) => (
+                        <span 
+                          key={i}
+                          className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-muted/70 border border-white/10 px-4 py-2 rounded-full transition-colors duration-300 hover:bg-white hover:text-black cursor-default"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
 
-                    {/* Contributions */}
-                    {exp.contributions && exp.contributions.length > 0 && (
-                      <div className="mb-12">
-                        <ul className="flex flex-col gap-6 border-t border-white/5 pt-6">
-                          {exp.contributions.map((item, i) => (
-                            <li key={i} className="flex items-start gap-6 group/item">
-                              <span className="text-muted/40 font-mono text-[10px] uppercase tracking-widest mt-1 transition-colors duration-300 group-hover/item:text-foreground">0{i + 1}</span>
-                              <p className="font-mono text-xs md:text-sm text-foreground/70 leading-relaxed max-w-xl transition-colors duration-300 group-hover/item:text-foreground/90">
-                                {item}
-                              </p>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Technologies */}
-                    {exp.technologies && exp.technologies.length > 0 && (
-                      <div className="mt-auto pt-6 border-t border-white/5">
-                        <div className="flex flex-wrap gap-2">
-                          {exp.technologies.map((tech, i) => (
-                            <span 
-                              key={i}
-                              className="font-mono text-[10px] uppercase tracking-widest text-muted border border-white/10 px-3 py-1.5 rounded-full transition-colors duration-300 hover:bg-white hover:text-black cursor-default"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
+              {/* RIGHT SIDE: Role, Meta, Description, Contributions */}
+              <div className="w-full md:w-7/12 flex flex-col mt-4 md:mt-0">
+                
+                {/* Role & Year Header */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8">
+                  <div className="exp-meta flex flex-col gap-2">
+                    <h5 className="font-mono text-2xl md:text-4xl font-bold uppercase text-foreground tracking-tight">
+                      {exp.role}
+                    </h5>
+                    {exp.location && (
+                      <span className="font-mono text-xs md:text-sm text-muted/60 uppercase tracking-widest">
+                        {exp.location}
+                      </span>
                     )}
                   </div>
+                  <div className="exp-meta shrink-0">
+                    <Text as="span" variant="mono" className="text-white text-xs md:text-sm uppercase tracking-widest bg-white/5 px-6 py-3 rounded-full border border-white/10 inline-block">
+                      {exp.period}
+                    </Text>
+                  </div>
                 </div>
+
+                {/* Animated Line */}
+                <div className="exp-border w-full h-[1px] bg-white/20 mb-8 md:mb-12 will-change-transform transform-gpu" />
                 
+                {/* Main Description */}
+                <div className="exp-content flex flex-col gap-12">
+                  <p className="font-mono text-sm md:text-lg text-foreground/80 leading-relaxed text-left md:text-justify uppercase tracking-wider">
+                    {exp.description}
+                  </p>
+
+                  {/* Contributions List */}
+                  {exp.contributions && exp.contributions.length > 0 && (
+                    <div className="flex flex-col gap-8 md:gap-12">
+                      {exp.contributions.map((item, i) => (
+                        <div key={i} className="flex gap-6 md:gap-8 group/item">
+                          <span className="text-muted/40 font-mono text-[10px] md:text-xs uppercase tracking-widest mt-1 md:mt-1.5 transition-colors duration-300 group-hover/item:text-foreground">
+                            0{i + 1}
+                          </span>
+                          <p className="font-mono text-xs md:text-base text-muted/70 leading-relaxed text-left md:text-justify uppercase tracking-wider transition-colors duration-300 group-hover/item:text-foreground/90">
+                            {item}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
               </div>
+              
             </div>
           ))}
         </div>

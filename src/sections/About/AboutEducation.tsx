@@ -140,7 +140,7 @@ export const AboutEducation: React.FC = () => {
               {/* Animated Horizontal Line */}
               <div className="edu-line w-full h-[1px] bg-white/20 will-change-transform transform-gpu" />
 
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-8 md:gap-12 w-full group">
+              <div className="flex flex-col md:flex-row md:items-stretch justify-between gap-8 md:gap-12 w-full group">
                 
                 {/* Massive Institution Name without overflow-hidden so characters can scatter */}
                 <div className="edu-inst-wrapper flex-1 pb-4 md:pb-8 will-change-transform transform-gpu">
@@ -165,28 +165,33 @@ export const AboutEducation: React.FC = () => {
                 </div>
 
                 {/* Meta Information (Right aligned on desktop) */}
-                <div className="edu-meta-col flex flex-col md:items-end gap-4 md:w-1/3 shrink-0 will-change-transform transform-gpu md:pt-4">
-                  <div className="edu-year will-change-transform transform-gpu">
-                    <Text as="span" variant="mono" className="text-white text-sm md:text-base uppercase tracking-widest bg-white/5 px-4 py-2 rounded-full border border-white/10">
-                      {edu.period}
-                    </Text>
-                  </div>
-                  
-                  <div className="edu-degree flex flex-col gap-2 will-change-transform transform-gpu md:text-right mt-4">
-                    <p className="font-mono text-base md:text-xl text-foreground font-bold uppercase tracking-wider">
-                      {edu.degree}
-                    </p>
-                    {edu.field && (
-                      <p className="font-mono text-sm md:text-base text-muted uppercase tracking-widest">
-                        {edu.field}
+                <div className="edu-meta-col flex flex-col md:items-end justify-between gap-4 md:w-1/3 shrink-0 will-change-transform transform-gpu md:pt-4 pb-4 md:pb-8">
+                  <div className="flex flex-col md:items-end w-full">
+                    <div className="edu-year will-change-transform transform-gpu mb-4">
+                      <Text as="span" variant="mono" className="text-white text-sm md:text-base uppercase tracking-widest bg-white/5 px-4 py-2 rounded-full border border-white/10">
+                        {edu.period}
+                      </Text>
+                    </div>
+                    
+                    <div className="edu-degree flex flex-col gap-2 will-change-transform transform-gpu md:text-right w-full">
+                      <p className="font-mono text-base md:text-xl text-foreground font-bold uppercase tracking-wider">
+                        {edu.degree}
                       </p>
-                    )}
-                    {edu.description && (
-                      <p className="font-mono text-[10px] md:text-xs text-muted/60 max-w-sm leading-relaxed mt-4 uppercase tracking-widest">
+                      {edu.field && (
+                        <p className="font-mono text-sm md:text-base text-muted uppercase tracking-widest">
+                          {edu.field}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {edu.description && (
+                    <div className="mt-auto w-full flex md:justify-end">
+                      <p className="font-mono text-[10px] md:text-xs text-muted/60 max-w-sm leading-relaxed uppercase tracking-widest md:text-justify text-left">
                         {edu.description}
                       </p>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
 
               </div>
