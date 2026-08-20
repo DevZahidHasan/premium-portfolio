@@ -8,6 +8,7 @@ import { experienceData } from '../../data/experience';
 export const AboutExperience: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
   const rowsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const charsRef = useRef<(HTMLSpanElement | null)[]>([]);
 
   useGSAP(() => {
     if (!containerRef.current) return;
@@ -22,8 +23,7 @@ export const AboutExperience: React.FC = () => {
         
         const borderEl = row.querySelector('.exp-border');
         const metaEl = row.querySelectorAll('.exp-meta');
-        row.querySelector('.exp-title-wrapper');
-        const titleEl = row.querySelector('.exp-title');
+        const titleChars = row.querySelectorAll('.exp-char');
         const contentEl = row.querySelector('.exp-content');
         
         const tl = gsap.timeline({
@@ -51,29 +51,52 @@ export const AboutExperience: React.FC = () => {
           );
         }
 
-        // 3. Company Title Mask Reveal
-        if (titleEl) {
-          tl.fromTo(titleEl,
-            { y: '100%', rotateX: -10 },
-            { y: '0%', rotateX: 0, duration: 1.2, ease: 'power4.out' },
-            "-=0.8"
-          );
-        }
-
-        // 4. Content fade up
+        // 3. Content fade up
         if (contentEl) {
           tl.fromTo(contentEl,
             { opacity: 0, y: 20 },
             { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
-            "-=1.0"
+            "-=0.8"
           );
         }
+
+        // 4. Scattered Character Animation (Scrub) for this row's title
+        titleChars.forEach((char) => {
+          const rx = (Math.random() - 0.5) * 800; 
+          const ry = (Math.random() - 0.5) * 800; 
+          const rot = (Math.random() - 0.5) * 180;
+          
+          gsap.fromTo(char, 
+            { 
+              x: rx, 
+              y: ry, 
+              rotationZ: rot,
+              opacity: 0,
+            },
+            {
+              x: 0,
+              y: 0,
+              rotationZ: 0,
+              opacity: 1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: row,
+                start: 'top 95%',
+                end: 'top 20%',
+                scrub: 1, 
+              }
+            }
+          );
+        });
+
       });
     } else {
       gsap.set(containerRef.current, { opacity: 1 });
     }
 
   }, []);
+
+  charsRef.current = [];
 
   return (
     <section 
@@ -87,7 +110,7 @@ export const AboutExperience: React.FC = () => {
         
         {/* TITLE: Top spanning label */}
         <div className="md:col-span-12 mb-16 md:mb-32">
-          <Text as="span" variant="mono" className="text-muted text-[11px] uppercase tracking-widest block">
+          <Text as="span" variant="mono" className="text-foreground text-[11px] uppercase tracking-widest block font-bold">
             03 / Experience
           </Text>
         </div>
@@ -104,9 +127,24 @@ export const AboutExperience: React.FC = () => {
               {/* LEFT SIDE: Sticky Company Name & Tech Stack */}
               <div className="w-full md:w-5/12 flex flex-col items-start relative h-full">
                 <div className="md:sticky md:top-32 flex flex-col w-full pb-8 md:pb-0">
-                  <div className="exp-title-wrapper overflow-hidden pb-4">
-                    <h4 className="exp-title font-display font-bold text-6xl md:text-[6vw] lg:text-[7vw] uppercase tracking-tighter text-foreground leading-[0.9] will-change-transform transform-gpu origin-top">
-                      {exp.company}
+                  <div className="exp-title-wrapper pb-4">
+                    <h4 className="font-display font-bold text-6xl md:text-[6vw] lg:text-[7vw] uppercase tracking-tighter text-foreground leading-[0.9] will-change-transform transform-gpu origin-top">
+                      {exp.company.split(' ').map((word, wordIndex, arr) => (
+                        <React.Fragment key={wordIndex}>
+                          <span className="inline-block whitespace-nowrap">
+                            {word.split('').map((char, charIndex) => (
+                              <span 
+                                key={charIndex}
+                                ref={(el) => { if (el) charsRef.current.push(el); }}
+                                className="exp-char inline-block will-change-transform transform-gpu"
+                              >
+                                {char}
+                              </span>
+                            ))}
+                          </span>
+                          {wordIndex < arr.length - 1 && ' '}
+                        </React.Fragment>
+                      ))}
                     </h4>
                   </div>
                   

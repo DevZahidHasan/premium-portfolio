@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { gsap } from '../../motion/gsap';
 import { useGSAP } from '@gsap/react';
 import { Text } from '../../components/Text';
@@ -9,8 +9,8 @@ export const AboutSkills: React.FC = () => {
   const columnsRef = useRef<(HTMLDivElement | null)[]>([]);
   const bgImageRef = useRef<HTMLImageElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
-  
-  const [hoveredCol, setHoveredCol] = useState<number | null>(null);
+
+  const charsRef = useRef<(HTMLSpanElement | null)[]>([]);
 
   useGSAP(() => {
     if (!containerRef.current) return;
@@ -50,21 +50,20 @@ export const AboutSkills: React.FC = () => {
         );
       }
 
-      // 3. Stagger animate the columns entrance & add Scroll Parallax
+      // 3. Stagger animate the columns
       columnsRef.current.forEach((col, index) => {
         if (!col) return;
         
         const divider = col.querySelector('.skill-divider');
-        const header = col.querySelector('.skill-header');
+        const desc = col.querySelector('.skill-desc');
         const items = col.querySelectorAll('.skill-item');
 
-        // ENTRANCE ANIMATION
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
             start: 'top 75%',
           },
-          delay: index * 0.15 // Premium staggered delay between columns
+          delay: index * 0.15
         });
 
         if (divider) {
@@ -74,8 +73,8 @@ export const AboutSkills: React.FC = () => {
           );
         }
 
-        if (header) {
-          tl.fromTo(header,
+        if (desc) {
+          tl.fromTo(desc,
             { y: 20, opacity: 0 },
             { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
             "-=0.6"
@@ -85,31 +84,51 @@ export const AboutSkills: React.FC = () => {
         if (items.length) {
           tl.fromTo(items,
             { x: -10, opacity: 0 },
-            { x: 0, opacity: 1, stagger: 0.05, duration: 0.6, ease: 'power2.out' },
+            { x: 0, opacity: 1, stagger: 0.08, duration: 0.6, ease: 'power2.out' },
             "-=0.4"
           );
         }
+      });
 
-        // SCROLL PARALLAX ANIMATION
-        gsap.to(col, {
-          y: index % 2 === 0 ? -40 : 40, // Outer columns move up, center column moves down
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1, // Smooth scrubbing
+      // 4. Scrub scattered alphabet animation for Category Titles
+      charsRef.current.forEach((char) => {
+        if (!char) return;
+        const rx = (Math.random() - 0.5) * 800; 
+        const ry = (Math.random() - 0.5) * 800; 
+        const rot = (Math.random() - 0.5) * 180;
+        
+        gsap.fromTo(char, 
+          { 
+            x: rx, 
+            y: ry, 
+            rotationZ: rot,
+            opacity: 0,
+          },
+          {
+            x: 0,
+            y: 0,
+            rotationZ: 0,
+            opacity: 1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top 85%',
+              end: 'top 30%',
+              scrub: 1, 
+            }
           }
-        });
+        );
       });
     }
 
   }, []);
 
+  charsRef.current = [];
+
   return (
     <section 
       ref={containerRef}
-      className="w-full py-24 md:py-32 px-page-gutter relative z-10 overflow-hidden"
+      className="w-full py-24 md:py-48 px-page-gutter relative z-10 overflow-hidden bg-background"
       id="capabilities"
     >
       {/* PARALLAX BACKGROUND IMAGE */}
@@ -125,71 +144,72 @@ export const AboutSkills: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background z-20 opacity-80" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-grid-gap items-start relative z-10">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-grid-gap items-start relative z-10 w-full">
         
-        {/* LEFT COLUMN: Title & Intro (3 cols on desktop) */}
-        <div ref={introRef} className="md:col-span-3 flex flex-col gap-6">
-          <Text as="span" variant="mono" className="text-muted text-[11px] uppercase tracking-widest block pt-2 opacity-0">
+        {/* TITLE: Spans full width */}
+        <div ref={introRef} className="md:col-span-12 flex flex-col gap-6 mb-8 md:mb-16">
+          <Text as="span" variant="mono" className="text-foreground font-bold text-[11px] uppercase tracking-widest block pt-2 opacity-0">
             04 / Capabilities
           </Text>
-          <p className="font-mono text-xs text-muted/60 uppercase tracking-widest leading-relaxed max-w-[250px] opacity-0">
+          <p className="font-mono text-sm md:text-base text-muted/60 uppercase tracking-widest leading-relaxed max-w-2xl opacity-0">
             Building highly interactive, scalable, and performant web applications with a focus on premium user experiences and robust architectures.
           </p>
         </div>
 
-        {/* RIGHT COLUMN: Precise Technical Grid (9 cols) */}
-        <div className="md:col-span-9 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 md:gap-8 pt-8 md:pt-0" onMouseLeave={() => setHoveredCol(null)}>
-          {skillsData.map((category, index) => {
-            const isHovered = hoveredCol === index;
-            const isDimmed = hoveredCol !== null && hoveredCol !== index;
-            
-            return (
-              <div 
-                key={category.id} 
-                ref={(el) => { columnsRef.current[index] = el; }}
-                onMouseEnter={() => setHoveredCol(index)}
-                className={`flex flex-col transition-opacity duration-500 will-change-transform ${isDimmed ? 'opacity-30' : 'opacity-100'}`}
-              >
-                {/* Category Header */}
-                <div className="skill-header pb-6 mb-6 relative opacity-0">
-                  <div className="skill-divider absolute bottom-0 left-0 w-full h-[1px] bg-white/10" />
-                  <div className="absolute bottom-0 left-0 h-[1px] bg-white transition-all duration-500 ease-out" style={{ width: isHovered ? '100%' : '0%' }} />
-                  
-                  <h4 className="font-mono text-sm md:text-base uppercase tracking-widest text-foreground font-bold transition-colors duration-300" style={{ color: isHovered ? '#fff' : '' }}>
-                    {category.label.replace(/\[|\]/g, '')}
-                  </h4>
-                  {category.description && (
-                    <p className="font-mono text-[10px] text-muted/70 uppercase tracking-widest mt-3 leading-relaxed">
-                      {category.description.replace(/\[|\]/g, '')}
-                    </p>
-                  )}
-                </div>
-
-                {/* Skills List */}
-                <ul className="flex flex-col gap-3">
-                  {category.skills.map((skill, i) => (
-                    <li 
-                      key={i} 
-                      className="skill-item group flex items-center gap-4 cursor-default py-1 overflow-hidden opacity-0"
+        {/* CLEAN 3-COLUMN GRID */}
+        <div className="md:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 w-full pt-8">
+          {skillsData.map((category, index) => (
+            <div 
+              key={category.id} 
+              ref={(el) => { columnsRef.current[index] = el; }}
+              className="flex flex-col w-full group relative bg-black/40 backdrop-blur-sm border border-white/5 p-8 rounded-sm"
+            >
+              
+              {/* Category Header */}
+              <div className="skill-header flex flex-col pb-6 mb-6 relative">
+                <div className="skill-divider absolute bottom-0 left-0 w-full h-[1px] bg-white/20" />
+                <div className="absolute bottom-0 left-0 h-[1px] bg-white scale-x-0 origin-left transition-transform duration-700 ease-out group-hover:scale-x-100" />
+                
+                <h4 className="font-display font-bold text-3xl md:text-4xl uppercase tracking-tighter text-foreground mb-4">
+                  {category.label.replace(/\[|\]/g, '').split('').map((char, charIndex) => (
+                    <span 
+                      key={charIndex}
+                      ref={(el) => { if (el) charsRef.current.push(el); }}
+                      className="inline-block will-change-transform transform-gpu"
                     >
-                      <div className="relative flex items-center justify-center w-4 h-4 overflow-hidden">
-                        {/* Default Dot */}
-                        <span className="absolute left-0 w-1.5 h-1.5 rounded-full bg-white/60 transition-all duration-500 group-hover:scale-0 group-hover:opacity-0" />
-                        {/* Hover Arrow */}
-                        <span className="absolute -left-4 text-[10px] text-white opacity-0 transition-all duration-500 group-hover:left-0 group-hover:opacity-100 font-mono">
-                          {">"}
-                        </span>
-                      </div>
-                      {/* Text Translation */}
-                      <span className="font-mono text-xs md:text-sm tracking-wider text-foreground/95 transition-all duration-500 group-hover:text-white group-hover:translate-x-2">
-                        {skill.replace(/\[|\]/g, '')}
-                      </span>
-                    </li>
+                      {char === ' ' ? '\u00A0' : char}
+                    </span>
                   ))}
-                </ul>
+                </h4>
+                {category.description && (
+                  <p className="skill-desc font-mono text-[10px] md:text-xs text-muted/80 uppercase tracking-widest leading-relaxed">
+                    {category.description.replace(/\[|\]/g, '')}
+                  </p>
+                )}
               </div>
-            );
-          })}
+
+              {/* Skills List */}
+              <ul className="flex flex-col gap-4">
+                {category.skills.map((skill, i) => (
+                  <li 
+                    key={i} 
+                    className="skill-item flex items-center cursor-default overflow-hidden group/item"
+                  >
+                    <div className="relative flex items-center justify-center w-3 h-3 overflow-hidden mr-3">
+                      <span className="absolute left-0 w-1 h-1 rounded-full bg-white/40 transition-all duration-500 group-hover/item:scale-0 group-hover/item:opacity-0" />
+                      <span className="absolute -left-4 text-[8px] text-white opacity-0 transition-all duration-500 group-hover/item:left-0 group-hover/item:opacity-100 font-mono">
+                        {">"}
+                      </span>
+                    </div>
+                    <span className="font-mono text-sm md:text-base text-foreground/90 uppercase tracking-widest transition-all duration-500 group-hover/item:text-white group-hover/item:translate-x-2">
+                      {skill.replace(/\[|\]/g, '')}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              
+            </div>
+          ))}
         </div>
         
       </div>
