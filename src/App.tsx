@@ -11,12 +11,15 @@ import { ProjectDetail } from './pages/ProjectDetail';
 import { ContactContainer } from './sections/Contact/ContactContainer';
 import { Resume } from './pages/Resume';
 
+import { ScrollToTop } from './components/ScrollToTop';
+
 const App: React.FC = () => {
   return (
     <BrowserRouter>
       <PreloaderProvider>
         <LenisProvider>
           <CustomCursor />
+          <ScrollToTop />
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
