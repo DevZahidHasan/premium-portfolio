@@ -144,7 +144,7 @@ export const AboutEducation: React.FC = () => {
                 
                 {/* Massive Institution Name without overflow-hidden so characters can scatter */}
                 <div className="edu-inst-wrapper flex-1 pb-4 md:pb-8 will-change-transform transform-gpu">
-                  <h4 className="font-display font-bold text-[10vw] md:text-[6vw] lg:text-[7vw] uppercase tracking-tighter text-foreground will-change-transform transform-gpu leading-[0.95]">
+                  <h4 className="font-display font-bold text-[10vw] md:text-[6vw] lg:text-[6vw] uppercase tracking-tighter text-foreground will-change-transform transform-gpu leading-[0.95]">
                     {edu.institution.split(' ').map((word, wordIndex, arr) => (
                       <React.Fragment key={wordIndex}>
                         <span className="inline-block whitespace-nowrap">

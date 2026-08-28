@@ -11,11 +11,11 @@
     --selection: rgba(255, 255, 255, 0.2);
     --cursor: #ffffff;
 
-    --font-display: 'Satoshi', sans-serif;
-    --font-heading: 'Satoshi', sans-serif;
-    --font-body: 'Geist', sans-serif;
-    --font-label: 'Geist', sans-serif;
-    --font-mono: monospace;
+    --font-display: 'Nunito', sans-serif;
+    --font-heading: 'Nunito', sans-serif;
+    --font-body: 'Quicksand', sans-serif;
+    --font-label: 'Quicksand', sans-serif;
+    --font-mono: 'Space Mono', monospace;
 
     --page-gutter: clamp(1rem, 5vw, 4rem);
     --section-spacing: clamp(4rem, 15vh, 12rem);
