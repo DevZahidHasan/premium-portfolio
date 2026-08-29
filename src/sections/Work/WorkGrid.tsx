@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -13,6 +13,8 @@ export const WorkGrid: React.FC = () => {
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
   const charsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const headerRef = useRef<HTMLDivElement>(null);
+  const loadMoreBtnRef = useRef<HTMLDivElement>(null);
+  const [visibleCount, setVisibleCount] = useState(3);
 
   useGSAP(() => {
     if (!containerRef.current || itemsRef.current.length === 0) return;
@@ -71,12 +73,34 @@ export const WorkGrid: React.FC = () => {
       });
     }
 
-  }, []);
+    // Floating animation for Load More button
+    if (loadMoreBtnRef.current) {
+      const mm = gsap.matchMedia();
+      
+      mm.add("(min-width: 768px)", () => {
+        gsap.to(loadMoreBtnRef.current, {
+          y: -10,
+          duration: 1.5,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1
+        });
+      });
+
+      return () => mm.revert();
+    }
+
+  }, [visibleCount]); // Re-run animations when visible count changes
 
   // Clean up chars array on each render to prevent duplicates
   charsRef.current = [];
+  
+  // Clean up items array to only hold currently rendered items
+  itemsRef.current = [];
 
   const headlineText = "Selected Work";
+  
+  const visibleProjects = projects.slice(0, visibleCount);
 
   return (
     <div ref={containerRef} className="w-full px-page-gutter pb-32 md:pb-64 relative z-10 flex flex-col items-center">
@@ -103,7 +127,7 @@ export const WorkGrid: React.FC = () => {
       </div>
 
       <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-24 relative z-10">
-        {projects.map((project, index) => {
+        {visibleProjects.map((project, index) => {
           // Asymmetric grid: even items left, odd items right and pushed down
           const isEven = index % 2 === 0;
           
@@ -179,7 +203,7 @@ export const WorkGrid: React.FC = () => {
                         </a>
                       )}
                       
-                      {/* Project Detail Link Icon (purely visual since whole card is clickable) */}
+                      {/* Project Detail Link Icon */}
                       <div className="w-8 h-8 rounded-full flex items-center justify-center text-black/40 group-hover:text-black transition-colors pointer-events-none">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M7 17l9.2-9.2M17 17V7H7"/>
@@ -193,6 +217,23 @@ export const WorkGrid: React.FC = () => {
           );
         })}
       </div>
+      
+      {/* Load More Button */}
+      {visibleCount < projects.length && (
+        <div className="w-full flex justify-center mt-16 md:mt-32 relative z-20">
+          <div ref={loadMoreBtnRef} className="will-change-transform transform-gpu">
+            <button 
+              onClick={() => setVisibleCount(projects.length)}
+              className="flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full font-mono text-xs tracking-widest uppercase hover:bg-black/80 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+            >
+              Load More Work
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -62,6 +62,53 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "aether",
+    title: "AETHER — Planetary Climate Intelligence Instrument",
+    category: "3D WEBGL & SPATIAL DATA PLATFORM",
+    client: "Personal",
+    year: "2026",
+    services:
+      "Frontend Architecture, 3D WebGL Engineering, Creative Technology, Scientific Data Visualization",
+    liveLink: "https://aether-wheat-two.vercel.app/",
+    about:
+      "AETHER is a high-precision, real-time planetary climate intelligence instrument that treats the 3D Earth as the primary interface rather than a conventional SaaS dashboard. It simulates and visualizes four continuous planetary environmental layers—ECMWF ERA5 temperature anomalies, GPCP precipitation plumes, GPU particle-advected wind streamlines, and aerosol air quality haze—anchored by an interactive 36-year temporal scrubbing engine (1990–2026) and sub-millisecond geodetic point interrogation matching all 177 sovereign nations.",
+    projectType: "3d-webgl",
+    overview:
+      "AETHER is a planetary-scale spatial climate intelligence platform that visualizes global atmospheric physics, historical warming trends, and real-time environmental metrics through a responsive 3D celestial interface.",
+    goal: "To depart from generic card-based SaaS dashboards by engineering a planet-first scientific instrument that renders continuous 3D volumetric climate data, physical atmospheric advection, and decadal time-series interrogation at a rock-solid 60 FPS.",
+    screens: [
+      "/aether/hero-globe.png",
+      "/aether/temperature-anomaly.png",
+      "/aether/wind-circulation.png",
+      "/aether/inspection-panel.png",
+      "/aether/temporal-timeline.png",
+      "/aether/mobile-responsive.png",
+    ],
+    approach:
+      "I architected the platform with Next.js 15 App Router, React 19, and Three.js / React Three Fiber, enforcing strict TypeScript with zero any. To eliminate Z-fighting across 4 simultaneous volumetric layers, I engineered a concentric radial stacking hierarchy (R = 2.000 to 2.240) and authored custom GLSL vertex/fragment shaders for inverted-normal Fresnel atmospheric rim glow, 3D Simplex noise thermal domain warping, and ERA5 streamline particle advection. I derived an inverse-matrix raycasting pipeline to translate 2D screen interactions on an orbiting, rotating globe into exact geodetic coordinates, backed by an offline cartography engine that matches 177 sovereign nations via Jordan curve polygon tests and AABB pre-indexing. For motion, I implemented cinematic great-circle camera flights using Quaternion slerp and a parabolic altitude arc. Finally, I hardened runtime performance to guarantee 60 FPS by clamping DPR to [1, 2], throttling telemetry to 20Hz, and caching boundary geometries as module singletons.",
+    technologies: [
+      "Next.js 15",
+      "React 19",
+      "TypeScript (Strict)",
+      "Three.js",
+      "React Three Fiber (R3F)",
+      "@react-three/drei",
+      "Custom GLSL Shaders",
+      "TailwindCSS",
+      "GeoJSON & Spatial Math",
+      "ECMWF ERA5 & NASA Data",
+    ],
+    thumbnail: "/aether/hero-globe.png",
+    images: [
+      "/aether/hero-globe.png",
+      "/aether/temperature-anomaly.png",
+      "/aether/wind-circulation.png",
+      "/aether/inspection-panel.png",
+      "/aether/temporal-timeline.png",
+      "/aether/mobile-responsive.png",
+    ],
+  },
+  {
     id: "flow-os",
     title: "FlowOS Business Operating System",
     category: "ENTERPRISE SAAS PLATFORM",
