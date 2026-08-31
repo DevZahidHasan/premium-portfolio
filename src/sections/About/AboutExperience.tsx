@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { Text } from '../../components/Text';
 import { experienceData } from '../../data/experience';
