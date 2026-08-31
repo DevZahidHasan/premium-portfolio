@@ -22,23 +22,43 @@ export const WorkGrid: React.FC = () => {
     itemsRef.current.forEach((item) => {
       if (!item) return;
 
-      gsap.fromTo(item, 
-        { 
-          y: 60,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          }
+      const imageContainer = item.querySelector('.project-img-container');
+      const img = item.querySelector('img');
+      const textContent = item.querySelector('.project-text-content');
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: item,
+          start: 'top 85%',
+          toggleActions: 'play none none reverse',
         }
-      );
+      });
+
+      if (imageContainer && img) {
+        tl.fromTo(imageContainer,
+          { clipPath: 'inset(100% 0% 0% 0%)' },
+          { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: 'power4.inOut' }
+        );
+        tl.fromTo(img,
+          { scale: 1.3 },
+          { scale: 1, duration: 1.5, ease: 'power4.inOut' },
+          "<"
+        );
+      } else {
+        // Fallback if classes aren't found
+        tl.fromTo(item, 
+          { y: 60, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
+        );
+      }
+
+      if (textContent) {
+        tl.fromTo(textContent,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
+          "-=1"
+        );
+      }
     });
 
     // Scattered Character Animation for "Selected Work"
@@ -153,48 +173,48 @@ export const WorkGrid: React.FC = () => {
                 )}
               </div>
               
-              {/* Card Container */}
+              {/* Card Container - Removed white background and padding */}
               <div 
-                className="block w-full bg-white rounded-[32px] p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/[0.03] transition-transform duration-500 hover:-translate-y-2 relative group"
+                className="block w-full transition-transform duration-500 hover:-translate-y-2 relative group"
               >
                 {/* Main clickable area for the whole card */}
-                <Link to={`/project/${project.id}`} className="absolute inset-0 z-10 rounded-[32px]" aria-label={`View ${project.title} details`} />
+                <Link to={`/project/${project.id}`} className="absolute inset-0 z-10" aria-label={`View ${project.title} details`} />
                 
-                {/* Image Container */}
-                <div className="w-full aspect-[4/3] rounded-[24px] bg-[#F4F4F2] overflow-hidden mb-6 relative">
+                {/* Image Container - Sharp edges, full bleed */}
+                <div className="project-img-container w-full aspect-[4/3] bg-[#F4F4F2] overflow-hidden mb-6 relative">
                   <img 
                     src={project.thumbnail} 
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                   />
                 </div>
 
-                {/* Text Content */}
-                <div className="px-2 pb-2">
-                  <h3 className="font-display font-bold text-xl text-black mb-1">
+                {/* Text Content - Sits directly on the background */}
+                <div className="project-text-content pb-2">
+                  <h3 className="font-display font-bold text-2xl text-black mb-2 uppercase tracking-tight">
                     {project.title}
                   </h3>
-                  <p className="font-sans text-sm text-black/60 mb-6">
-                    {project.about.substring(0, 60)}...
+                  <p className="font-sans text-sm text-black/60 mb-6 max-w-md">
+                    {project.about.substring(0, 80)}...
                   </p>
 
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="flex flex-wrap gap-2">
-                      {project.services.split(',').slice(0, 2).map((service, i) => (
-                        <span key={i} className="font-sans text-[11px] font-medium text-black/60 border border-black/10 rounded px-2 py-1">
+                      {project.services.split(',').slice(0, 3).map((service, i) => (
+                        <span key={i} className="font-mono text-[10px] uppercase tracking-widest font-medium text-black/50 border border-black/10 rounded-sm px-2 py-1">
                           {service.trim()}
                         </span>
                       ))}
                     </div>
                     
                     {/* Links */}
-                    <div className="flex items-center gap-3 relative z-20">
+                    <div className="flex items-center gap-3 relative z-20 shrink-0">
                       {project.liveLink && (
                         <a 
                           href={project.liveLink}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center gap-2 px-3 py-1.5 bg-black text-white rounded-full font-mono text-[10px] tracking-wider uppercase hover:bg-black/80 transition-colors"
+                          className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-full font-mono text-[10px] tracking-widest uppercase hover:bg-black/80 transition-colors"
                         >
                           Live Site
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -202,13 +222,6 @@ export const WorkGrid: React.FC = () => {
                           </svg>
                         </a>
                       )}
-                      
-                      {/* Project Detail Link Icon */}
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-black/40 group-hover:text-black transition-colors pointer-events-none">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M7 17l9.2-9.2M17 17V7H7"/>
-                        </svg>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -216,24 +229,36 @@ export const WorkGrid: React.FC = () => {
             </div>
           );
         })}
-      </div>
-      
-      {/* Load More Button */}
-      {visibleCount < projects.length && (
-        <div className="w-full flex justify-center mt-16 md:mt-32 relative z-20">
-          <div ref={loadMoreBtnRef} className="will-change-transform transform-gpu">
-            <button 
-              onClick={() => setVisibleCount(projects.length)}
-              className="flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full font-mono text-xs tracking-widest uppercase hover:bg-black/80 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-            >
-              Load More Work
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 9l6 6 6-6"/>
-              </svg>
-            </button>
+        {/* Load More Button inside Grid */}
+        {visibleCount < projects.length && (
+          <div 
+            className={clsx(
+              "flex flex-col items-center justify-center w-full min-h-[300px]",
+              visibleProjects.length % 2 !== 0 ? "md:mt-24" : ""
+            )}
+          >
+            <div ref={loadMoreBtnRef} className="will-change-transform transform-gpu relative z-20">
+              <button 
+                onClick={() => setVisibleCount(projects.length)}
+                className="group flex flex-col items-center justify-center w-40 h-40 md:w-48 md:h-48 bg-black text-white rounded-full transition-all duration-500 ease-out shadow-[0_20px_40px_rgba(0,0,0,0.15)] hover:scale-110 hover:shadow-[0_30px_60px_rgba(0,0,0,0.25)] relative overflow-hidden"
+              >
+                {/* Hover gradient effect */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] uppercase font-bold text-white relative z-10 mb-2">
+                  Load More
+                </span>
+                <span className="font-mono text-[9px] md:text-[10px] tracking-widest uppercase text-white relative z-10 flex items-center gap-2">
+                  Work
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-y-1">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </span>
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

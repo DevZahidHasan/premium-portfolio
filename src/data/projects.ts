@@ -153,6 +153,56 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "mindspace",
+    title:
+      "MINDSPACE — AI-Powered Visual Knowledge Operating System & Spatial 3D Universe",
+    category: "AI SYSTEMS & 3D WEBGL GRAPH PLATFORM",
+    client: "Personal",
+    year: "2026",
+    services:
+      "Full-Stack Architecture, 3D WebGL Engineering, AI Agent Systems, Creative Interaction Design, Database Design",
+    liveLink: "https://mindspace.vercel.app/",
+    about:
+      "MINDSPACE is an AI-powered visual knowledge operating system that bridges the gap between structured thinking, spatial memory, and conversational intelligence. Transcending conventional flat-folder note applications, MINDSPACE models knowledge as an organic, multi-dimensional graph in continuous 3D WebGL space. It is powered by a high-throughput Groq RAG engine with PostgreSQL-native full-text search, an agentic Command Center capable of multi-turn conversational database mutations (creating nodes, synthesizing concepts, and dynamically clustering relationships), and a dual Time ↔ Space navigation paradigm bridging chronological timelines with 3D spatial orbit mechanics.",
+    projectType: "3d-webgl",
+    overview:
+      "MINDSPACE is a spatial-temporal knowledge operating system combining 3D WebGL graph exploration, Groq-powered conversational AI orchestration, and bidirectional chronological timeline navigation within a strict layered architecture.",
+    goal: "To overcome the cognitive limits of hierarchical file systems and flat text editors by engineering an ultra-responsive, spatial-first second brain that couples high-fidelity 3D force-directed graph physics and conversational AI database mutations with sub-second retrieval at a locked 60 FPS.",
+    screens: [
+      "/mindspace/3d-universe-hero.png",
+      "/mindspace/ai-command-center.png",
+      "/mindspace/temporal-timeline.png",
+      "/mindspace/projects-collections.png",
+      "/mindspace/spatial-inspector.png",
+      "/mindspace/mobile-touch-sheet.png",
+    ],
+    approach:
+      "I architected MINDSPACE using Next.js 16 App Router, React 19, TypeScript (strict: true, zero any), and Tailwind CSS v4 on top of a strictly decoupled 5-tier layered architecture (UI → Server Actions → Domain Services → Repositories → Supabase PostgreSQL with workspace-scoped RLS). To achieve fluid 60 FPS spatial exploration, I engineered an isolated WebGL 3D Knowledge Universe using Three.js and React Three Fiber, featuring custom force-directed graph node distribution, selective Bloom post-processing, and smooth camera flight transitions using Quaternion slerp and parabolic altitude curves. For intelligence, I eliminated external vector databases in favor of a lean, ultra-fast Groq-only RAG architecture powered by PostgreSQL GIN-indexed tsvectors over chunked knowledge nodes. I built an autonomous AI Command Center with multi-turn memory that interprets natural language prompts to generate validated database mutation intents (CREATE_NODE, CONNECT_NODES, MULTI_CONNECT_NODES) guarded by interactive client confirmation cards. For UX, I developed a dual Time ↔ Space navigation system linking a scroll-linked parallax timeline to 3D graph coordinates, engineered physics-based magnetic controls, custom spring damping, and responsive gesture-driven mobile bottom sheets.",
+    technologies: [
+      "Next.js 16 (App Router)",
+      "React 19",
+      "TypeScript (Strict)",
+      "Three.js",
+      "React Three Fiber (R3F)",
+      "@react-three/drei",
+      "Groq LLM API",
+      "Supabase & PostgreSQL (RLS)",
+      "Full-Text Search (FTS & GIN)",
+      "Tailwind CSS v4",
+      "React Spring",
+      "Zod & React Hook Form",
+    ],
+    thumbnail: "/mindspace/3d-universe-hero.png",
+    images: [
+      "/mindspace/3d-universe-hero.png",
+      "/mindspace/ai-command-center.png",
+      "/mindspace/temporal-timeline.png",
+      "/mindspace/projects-collections.png",
+      "/mindspace/spatial-inspector.png",
+      "/mindspace/mobile-touch-sheet.png",
+    ],
+  },
+  {
     id: "banking-erp",
     title: "CCULB Core Banking Software (CBS)",
     category: "FINTECH PLATFORM",
