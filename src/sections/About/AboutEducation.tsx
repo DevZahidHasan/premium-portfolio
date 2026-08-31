@@ -142,10 +142,10 @@ export const AboutEducation: React.FC = () => {
 
               <div className="flex flex-col md:flex-row md:items-stretch justify-between gap-8 md:gap-12 w-full group">
                 
-                {/* Massive Institution Name without overflow-hidden so characters can scatter */}
+                {/* Massive Degree Name without overflow-hidden so characters can scatter */}
                 <div className="edu-inst-wrapper flex-1 pb-4 md:pb-8 will-change-transform transform-gpu">
-                  <h4 className="font-display font-bold text-[10vw] md:text-[6vw] lg:text-[6vw] uppercase tracking-tighter text-foreground will-change-transform transform-gpu leading-[0.95]">
-                    {edu.institution.split(' ').map((word, wordIndex, arr) => (
+                  <h4 className="font-display font-bold text-[10vw] md:text-[5vw] lg:text-[4.5vw] uppercase tracking-tighter text-foreground will-change-transform transform-gpu leading-[0.95]">
+                    {edu.degree.split(' ').map((word, wordIndex, arr) => (
                       <React.Fragment key={wordIndex}>
                         <span className="inline-block whitespace-nowrap">
                           {word.split('').map((char, charIndex) => (
@@ -165,7 +165,7 @@ export const AboutEducation: React.FC = () => {
                 </div>
 
                 {/* Meta Information (Right aligned on desktop) */}
-                <div className="edu-meta-col flex flex-col md:items-end justify-between gap-4 md:w-1/3 shrink-0 will-change-transform transform-gpu md:pt-4 pb-4 md:pb-8">
+                <div className="edu-meta-col flex flex-col md:items-end justify-between gap-4 md:w-5/12 shrink-0 will-change-transform transform-gpu md:pt-4 pb-4 md:pb-8">
                   <div className="flex flex-col md:items-end w-full">
                     <div className="edu-year will-change-transform transform-gpu mb-4">
                       <Text as="span" variant="mono" className="text-white text-sm md:text-base uppercase tracking-widest bg-white/5 px-4 py-2 rounded-full border border-white/10">
@@ -174,8 +174,8 @@ export const AboutEducation: React.FC = () => {
                     </div>
                     
                     <div className="edu-degree flex flex-col gap-2 will-change-transform transform-gpu md:text-right w-full">
-                      <p className="font-mono text-base md:text-xl text-foreground font-bold uppercase tracking-wider">
-                        {edu.degree}
+                      <p className="font-mono text-xl md:text-3xl text-foreground font-bold uppercase tracking-wider">
+                        {edu.institution}
                       </p>
                       {edu.field && (
                         <p className="font-mono text-sm md:text-base text-muted uppercase tracking-widest">
@@ -186,10 +186,11 @@ export const AboutEducation: React.FC = () => {
                   </div>
 
                   {edu.description && (
-                    <div className="mt-auto w-full flex md:justify-end">
-                      <p className="font-mono text-[10px] md:text-xs text-muted/60 max-w-sm leading-relaxed uppercase tracking-widest md:text-justify text-left">
-                        {edu.description}
-                      </p>
+                    <div className="mt-auto w-full flex md:justify-end md:mt-12">
+                      <p 
+                        className="font-mono text-[11px] md:text-sm text-foreground/80 max-w-sm leading-relaxed text-left transition-colors duration-300 [&>strong]:text-foreground [&>strong]:font-bold"
+                        dangerouslySetInnerHTML={{ __html: edu.description }}
+                      />
                     </div>
                   )}
                 </div>

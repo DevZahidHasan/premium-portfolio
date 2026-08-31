@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
-import { gsap } from '../../motion/gsap';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { Text } from '../../components/Text';
-import { FloatingSnippets } from '../../components/FloatingSnippets';
 import { experienceData } from '../../data/experience';
 
 export const AboutExperience: React.FC = () => {
@@ -104,8 +104,6 @@ export const AboutExperience: React.FC = () => {
       className="w-full py-24 md:py-48 px-page-gutter relative z-10 bg-background overflow-hidden"
       id="experience"
     >
-      <FloatingSnippets />
-      
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-grid-gap relative z-10 w-full">
         
         {/* TITLE: Top spanning label */}
@@ -124,12 +122,13 @@ export const AboutExperience: React.FC = () => {
               className="flex flex-col md:flex-row items-start justify-between gap-12 md:gap-24 w-full group relative"
             >
               
-              {/* LEFT SIDE: Sticky Company Name & Tech Stack */}
+              {/* LEFT SIDE: Sticky Role Name & Tech Stack */}
               <div className="w-full md:w-5/12 flex flex-col items-start relative h-full">
                 <div className="md:sticky md:top-32 flex flex-col w-full pb-8 md:pb-0">
                   <div className="exp-title-wrapper pb-4">
-                    <h4 className="font-display font-bold text-[12vw] md:text-[6vw] lg:text-[6vw] uppercase tracking-tighter text-foreground leading-[0.9] will-change-transform transform-gpu origin-top">
-                      {exp.company.split(' ').map((word, wordIndex, arr) => (
+                    {/* Render Role instead of Company as the giant wordmark */}
+                    <h4 className="font-display font-bold text-[10vw] md:text-[5vw] lg:text-[5vw] uppercase tracking-tighter text-foreground leading-[0.9] will-change-transform transform-gpu origin-top">
+                      {exp.role.split(' ').map((word, wordIndex, arr) => (
                         <React.Fragment key={wordIndex}>
                           <span className="inline-block whitespace-nowrap">
                             {word.split('').map((char, charIndex) => (
@@ -164,14 +163,15 @@ export const AboutExperience: React.FC = () => {
                 </div>
               </div>
 
-              {/* RIGHT SIDE: Role, Meta, Description, Contributions */}
+              {/* RIGHT SIDE: Company, Meta, Description, Contributions */}
               <div className="w-full md:w-7/12 flex flex-col mt-4 md:mt-0">
                 
-                {/* Role & Year Header */}
+                {/* Company & Year Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8">
                   <div className="exp-meta flex flex-col gap-2">
-                    <h5 className="font-mono text-2xl md:text-4xl font-bold uppercase text-foreground tracking-tight">
-                      {exp.role}
+                    {/* Render Company as small label */}
+                    <h5 className="font-mono text-xl md:text-3xl font-bold uppercase text-foreground tracking-tight">
+                      {exp.company}
                     </h5>
                     {exp.location && (
                       <span className="font-mono text-xs md:text-sm text-muted/60 uppercase tracking-widest">
@@ -191,7 +191,8 @@ export const AboutExperience: React.FC = () => {
                 
                 {/* Main Description */}
                 <div className="exp-content flex flex-col gap-12">
-                  <p className="font-mono text-sm md:text-lg text-foreground/80 leading-relaxed text-left md:text-justify uppercase tracking-wider">
+                  {/* Sentence case, left-aligned */}
+                  <p className="font-mono text-sm md:text-base text-foreground/80 leading-relaxed text-left">
                     {exp.description}
                   </p>
 
@@ -200,12 +201,14 @@ export const AboutExperience: React.FC = () => {
                     <div className="flex flex-col gap-8 md:gap-12">
                       {exp.contributions.map((item, i) => (
                         <div key={i} className="flex gap-6 md:gap-8 group/item">
-                          <span className="text-muted/40 font-mono text-[10px] md:text-xs uppercase tracking-widest mt-1 md:mt-1.5 transition-colors duration-300 group-hover/item:text-foreground">
+                          <span className="text-muted/40 font-mono text-[10px] md:text-xs uppercase tracking-widest mt-1 md:mt-1.5 transition-colors duration-300 group-hover/item:text-foreground shrink-0">
                             0{i + 1}
                           </span>
-                          <p className="font-mono text-xs md:text-base text-muted/70 leading-relaxed text-left md:text-justify uppercase tracking-wider transition-colors duration-300 group-hover/item:text-foreground/90">
-                            {item}
-                          </p>
+                          {/* Sentence case, left-aligned, render HTML for strong tags */}
+                          <p 
+                            className="font-mono text-xs md:text-[15px] text-muted/70 leading-relaxed text-left transition-colors duration-300 group-hover/item:text-foreground/90 [&>strong]:text-foreground [&>strong]:font-bold"
+                            dangerouslySetInnerHTML={{ __html: item }}
+                          />
                         </div>
                       ))}
                     </div>

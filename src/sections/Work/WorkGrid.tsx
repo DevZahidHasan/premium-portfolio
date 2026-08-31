@@ -126,7 +126,7 @@ export const WorkGrid: React.FC = () => {
         </h2>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-24 relative z-10">
+      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 relative z-10">
         {visibleProjects.map((project, index) => {
           // Asymmetric grid: even items left, odd items right and pushed down
           const isEven = index % 2 === 0;
@@ -137,7 +137,7 @@ export const WorkGrid: React.FC = () => {
               ref={(el) => { itemsRef.current[index] = el; }}
               className={clsx(
                 "flex flex-col group will-change-transform transform-gpu",
-                !isEven ? "md:mt-48" : ""
+                !isEven ? "md:mt-24" : ""
               )}
             >
               <div className="flex items-center gap-4 mb-2 ml-2">
