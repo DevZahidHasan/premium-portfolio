@@ -173,26 +173,31 @@ export const WorkGrid: React.FC = () => {
                 )}
               </div>
               
-              {/* Card Container - Removed white background and padding */}
-              <div 
-                className="block w-full transition-transform duration-500 hover:-translate-y-2 relative group"
-              >
-                {/* Main clickable area for the whole card */}
-                <Link to={`/project/${project.id}`} className="absolute inset-0 z-10" aria-label={`View ${project.title} details`} />
+              {/* Card Container */}
+              <div className="block w-full transition-transform duration-500 hover:-translate-y-2 relative group">
                 
-                {/* Image Container - Sharp edges, full bleed */}
-                <div className="project-img-container w-full aspect-[4/3] bg-[#F4F4F2] overflow-hidden mb-6 relative">
+                {/* Image Container - Click to view detail */}
+                <Link 
+                  to={`/project/${project.id}`} 
+                  className="project-img-container block w-full aspect-[4/3] bg-[#F4F4F2] overflow-hidden mb-6 relative"
+                  aria-label={`View ${project.title} details`}
+                >
                   <img 
                     src={project.thumbnail} 
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                   />
-                </div>
+                </Link>
 
-                {/* Text Content - Sits directly on the background */}
+                {/* Text Content */}
                 <div className="project-text-content pb-2">
                   <h3 className="font-display font-bold text-2xl text-black mb-2 uppercase tracking-tight">
-                    {project.title}
+                    <Link 
+                      to={`/project/${project.id}`} 
+                      className="hover:underline underline-offset-4 decoration-black/30"
+                    >
+                      {project.title}
+                    </Link>
                   </h3>
                   <p className="font-sans text-sm text-black/60 mb-6 max-w-md">
                     {project.about.substring(0, 80)}...
@@ -208,13 +213,13 @@ export const WorkGrid: React.FC = () => {
                     </div>
                     
                     {/* Links */}
-                    <div className="flex items-center gap-3 relative z-20 shrink-0">
+                    <div className="flex items-center gap-3 shrink-0">
                       {project.liveLink && (
                         <a 
                           href={project.liveLink}
                           target="_blank"
-                          rel="noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-full font-mono text-[10px] tracking-widest uppercase hover:bg-black/80 transition-colors"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-full font-mono text-[10px] tracking-widest uppercase hover:bg-black/80 transition-colors shadow-sm hover:shadow-md"
                         >
                           Live Site
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -155,13 +155,13 @@ export const projects: Project[] = [
   {
     id: "mindspace",
     title:
-      "MINDSPACE — AI-Powered Visual Knowledge Operating System & Spatial 3D Universe",
+      "MINDSPACE -  Spatial Knowledge OS 3D Universe ",
     category: "AI SYSTEMS & 3D WEBGL GRAPH PLATFORM",
     client: "Personal",
     year: "2026",
     services:
       "Full-Stack Architecture, 3D WebGL Engineering, AI Agent Systems, Creative Interaction Design, Database Design",
-    liveLink: "https://mindspace.vercel.app/",
+    liveLink: "https://mindspace-eta-lac.vercel.app/",
     about:
       "MINDSPACE is an AI-powered visual knowledge operating system that bridges the gap between structured thinking, spatial memory, and conversational intelligence. Transcending conventional flat-folder note applications, MINDSPACE models knowledge as an organic, multi-dimensional graph in continuous 3D WebGL space. It is powered by a high-throughput Groq RAG engine with PostgreSQL-native full-text search, an agentic Command Center capable of multi-turn conversational database mutations (creating nodes, synthesizing concepts, and dynamically clustering relationships), and a dual Time ↔ Space navigation paradigm bridging chronological timelines with 3D spatial orbit mechanics.",
     projectType: "3d-webgl",
